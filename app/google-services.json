@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1056005947139",
+    "firebase_url": "https://wrongparking-5951a.firebaseio.com",
+    "project_id": "wrongparking-5951a",
+    "storage_bucket": "wrongparking-5951a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056005947139:android:3a5bcbe36a1e5c87",
+        "android_client_info": {
+          "package_name": "com.example.wrongparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1056005947139-2hijibfef0hvntp4u15060bou547flvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wrongparking",
+            "certificate_hash": "50cf775c46fe460b5b75fa40a68dc55901a0bf4b"
+          }
+        },
+        {
+          "client_id": "1056005947139-ekd694d7cufsq8nqlsiimlsj5gdprg7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVuVPRsqrVU7D0XT_iyYBwVqJXA_o45ys"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1056005947139-ekd694d7cufsq8nqlsiimlsj5gdprg7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
