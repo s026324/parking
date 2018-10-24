@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onButtonClickLogin(View r)
     {
-        if(r.getId() == R.id.RedLogin ){
+        if(r.getId() == R.id.RedLogin){
             Intent i = new Intent(MainActivity.this, RedLogin.class);
             startActivity(i);
         }
