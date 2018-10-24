@@ -14,8 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -49,6 +53,7 @@ public class pranesti extends Activity {
     Date mDate = Calendar.getInstance().getTime();
     private boolean mPatvirtintas;
     private boolean mPerziuretas;
+    private TextView vieta;
 
 
 
@@ -85,6 +90,29 @@ public class pranesti extends Activity {
         imageView = (ImageView) findViewById(R.id.imageView2);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
         mValstnum = findViewById(R.id.valstnum);
+
+        vieta = (TextView) findViewById(R.id.Vieta);
+        final int PLACE_PICKER_REQUEST = 1;
+
+        vieta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                Intent intent;
+                try {
+                    intent = builder.build((Activity) getApplicationContext());
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                }
+                catch (GooglePlayServicesNotAvailableException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
       boolean mPatvirtintas = false;
       boolean mPerziuretas = false;
 
@@ -134,8 +162,8 @@ public class pranesti extends Activity {
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                   Intent intent = new Intent (pranesti.this, Redaktorius.class);
-                                    startActivity(intent);
+//                                   Intent intent = new Intent (pranesti.this, Redaktorius.class);
+//                                    startActivity(intent);
 
                                  //   boolean mPatvirtintas = false;
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString() ,
@@ -213,7 +241,11 @@ public class pranesti extends Activity {
                 imageView.setImageBitmap(photo);
             }
         }
+
+
+
     }
+
     // if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
     //        && data != null && data.getData() != null) {
     //  filePath = data.getData();
