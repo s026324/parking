@@ -19,11 +19,11 @@
         tools:layout_editor_absoluteX="73dp"
         tools:layout_editor_absoluteY="297dp" />
 
-    <ListView
-        android:id="@+id/redList"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bambo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="77dp" />
+        android:layout_height="658dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
