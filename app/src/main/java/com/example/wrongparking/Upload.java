@@ -73,10 +73,4 @@ public class Upload {
     public void setPerziuretas(boolean mPerziuretas) {
         this.mPerziuretas = mPerziuretas;
     }
-
-    @Override
-    public String toString() {
-        return mName;
-    }
-
 }
