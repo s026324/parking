@@ -4,6 +4,7 @@ public class Upload {
     private String mName;
     private String mImageUrl;
     private String mValstnum;
+    String address;
     private long mTime;
     private boolean mPatvirtintas;
     private boolean mPerziuretas;
@@ -12,7 +13,7 @@ public class Upload {
         //empty constructor needed
     }
 
-    public Upload(String name, String valstnum, String imageUrl, long dateTime, boolean patvirtintas, boolean perziuretas) {
+    public Upload(String name, String valstnum, String imageUrl, long dateTime, boolean patvirtintas, boolean perziuretas, String address) {
 
 
         mName = name;
@@ -21,6 +22,15 @@ public class Upload {
         mTime = dateTime;
         mPatvirtintas = patvirtintas;
         mPerziuretas = perziuretas;
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getName() {
@@ -73,4 +83,6 @@ public class Upload {
     public void setPerziuretas(boolean mPerziuretas) {
         this.mPerziuretas = mPerziuretas;
     }
+
+
 }

@@ -41,6 +41,7 @@ public class RedLogin extends Activity {
 
                 if (firebaseAuth.getCurrentUser() != null){
 
+                    //For faster login
                     startActivity(new Intent(RedLogin.this, Redaktorius.class));
 
                 }
@@ -52,6 +53,8 @@ public class RedLogin extends Activity {
             @Override
             public void onClick(View v) {
 
+                //change when release
+               // startActivity(new Intent(RedLogin.this, Redaktorius.class));
                 startSignIn();
 
             }

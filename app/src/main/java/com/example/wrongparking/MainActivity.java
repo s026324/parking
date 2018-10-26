@@ -27,4 +27,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
+
+    public void onPazeidimaiClick(View v){
+        if(v.getId() == R.id.button2){
+            Intent i = new Intent(MainActivity.this, PazeidimaiActivity.class);
+            startActivity(i);
+        }
+    }
 }

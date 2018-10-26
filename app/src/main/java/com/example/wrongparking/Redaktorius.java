@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ public class Redaktorius extends AppCompatActivity {
     DatabaseReference reference;
     RecyclerView recyclerView;
     ArrayList<Upload> list;
-    Recycler adapter;
+    public static Recycler adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,11 @@ public class Redaktorius extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
                 {
                     Upload p = dataSnapshot1.getValue(Upload.class);
-                    list.add(p);
+                    assert p != null;
+                    if(!p.isPerziuretas()){
+                        list.add(p);
+                    }
+
                 }
                  adapter = new Recycler(Redaktorius.this,list);
                 recyclerView.setAdapter(adapter);

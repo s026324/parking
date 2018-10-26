@@ -3,6 +3,7 @@ package com.example.wrongparking;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     DatabaseReference reference;
@@ -52,6 +58,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
+        holder.tv_placeAdress.setText(informacija.get(position).getAddress());
         holder.name.setText(informacija.get(position).getName());
         holder.valstnum.setText(informacija.get(position).getValstnum());
         Picasso.get().load(informacija.get(position).getImageUrl()).into(holder.imageUrl);
@@ -63,7 +70,30 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.btnPatvirtinti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             holder.btnPatvirtinti.setText("bambo");
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                final DatabaseReference reference = firebaseDatabase.getReference();
+                Query query = reference.child("uploads").orderByChild("time").equalTo(informacija.get(position).getTime());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                        HashMap<String, Object> result = new HashMap<>();
+                        result.put("patvirtintas", true);
+                        result.put("perziuretas",true);
+                        reference.child(path).updateChildren(result);
+
+                        informacija.remove(position);
+                        Redaktorius.adapter.notifyItemRemoved(position);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                    }
+                });
             }
         });
 
@@ -71,32 +101,30 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                final DatabaseReference reference = firebaseDatabase.getReference();
+                Query query = reference.child("uploads").orderByChild("valstnum").equalTo(informacija.get(position).getValstnum());
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                        HashMap<String, Object> result = new HashMap<>();
+                        result.put("patvirtintas", false);
+                        result.put("perziuretas",true);
+                        reference.child(path).updateChildren(result);
 
-                 //     .deleteProduct(shoppingCart.getId());
-/*                informacija.remove(position);
-                notifyItemRemoved(position);*/
+                        informacija.remove(position);
+                        Redaktorius.adapter.notifyItemRemoved(position);
+                    }
 
-
-                FirebaseDatabase.getInstance().getReference()
-                        .child("uploads").removeValue();
-
-
-             //  reference.child(DATABASE_PATH_UPLOADS).removeValue();
-
-
-
-/*                if(reference!=null) {
-                    reference.child("uploads").removeValue();
-                }*/
-               // informacija.remove(position);
-
-/*                informacija.remove(position);
-//                reference.child("uploads").removeValue();
-                .notifyItemRemoved(position);*/
-
-/*                FirebaseDatabase.getInstance().getReference()
-                        .child("uploads").child(Upload).removeValue();*/
-               // reference.child("uploads").child(informacija.toString()).removeValue();
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                    }
+                });
             }
         });
 
@@ -113,7 +141,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name, valstnum, dateTime, patvirtintas, perziuretas;
+        TextView name, valstnum, dateTime, patvirtintas, perziuretas, tv_placeAdress;
 
         ImageView imageUrl;
         Button btn, btnPatvirtinti;
@@ -128,6 +156,8 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
             dateTime = (TextView) itemView.findViewById(R.id.recyclerID4);
 /*            patvirtintas = (TextView) itemView.findViewById(R.id.recyclerID5);
             perziuretas = (TextView) itemView.findViewById(R.id.recyclerID6);*/
+
+            tv_placeAdress = itemView.findViewById(R.id.tv_place_adress);
 
             //  email = (TextView) itemView.findViewById(R.id.email);
             // profilePic = (ImageView) itemView.findViewById(R.id.profilePic);

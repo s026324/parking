@@ -34,6 +34,7 @@
         android:layout_width="315dp"
         android:layout_height="68dp"
         android:text="Pazeidimai"
+        android:onClick="onPazeidimaiClick"
         app:layout_constraintBottom_toTopOf="@+id/pranesti"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

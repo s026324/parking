@@ -2,4 +2,5 @@
     <string name="app_name">wrongparking</string>
     <color name="white">#FFFFFF</color>
     <string name="your_string"><u>Prisijungimas redaktoriui</u></string>
+    <string name="pazeidimai_title">Uzfiksuoti pazeidimai</string>
 </resources>

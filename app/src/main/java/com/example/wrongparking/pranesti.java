@@ -1,15 +1,22 @@
 package com.example.wrongparking;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,15 +39,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
+
+import im.delight.android.location.SimpleLocation;
 
 import static android.content.ContentValues.TAG;
 
 public class pranesti extends Activity {
-
+    static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
     public static final String DATABASE_PATH_UPLOADS = "uploads";
     int PLACE_PICKER_REQUEST = 1;
@@ -48,7 +60,7 @@ public class pranesti extends Activity {
 
     private StorageReference mStorageRef;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private Button btnChoose, btnUpload;
+    private Button btnChoose, btnUpload, btnGetPlace;
     private ImageView imageView;
     private EditText mEditTextFileName;
     private EditText mValstnum;
@@ -56,14 +68,16 @@ public class pranesti extends Activity {
     Date mDate = Calendar.getInstance().getTime();
     private boolean mPatvirtintas;
     private boolean mPerziuretas;
-    private TextView vieta;
+    private TextView tvPlace;
 
-
-
+    String mAddress = "";
 
     private Uri filePath;
 
     private final int CAMERA_REQUEST = 1888;
+
+    double longitude;
+    double latitude;
 
     //Firebase
     // FirebaseStorage storage;
@@ -72,6 +86,12 @@ public class pranesti extends Activity {
     //firebase objects
     private StorageReference storageReference;
     private DatabaseReference mDatabase;
+
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    private SimpleLocation location;
+    Geocoder geocoder;
+    List<Address> addressesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,43 +110,15 @@ public class pranesti extends Activity {
         //   mEditTextFileName = findViewById(R.id.edit_text_file_name);
         btnChoose = (Button) findViewById(R.id.choose);
         btnUpload = (Button) findViewById(R.id.upload);
+        btnGetPlace = findViewById(R.id.btn_get_place);
+        tvPlace = findViewById(R.id.tv_place_adress);
         imageView = (ImageView) findViewById(R.id.imageView2);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
         mValstnum = findViewById(R.id.valstnum);
 
-        vieta = (TextView) findViewById(R.id.Vieta);
 
-
-        vieta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    startActivityForResult(builder.build(pranesti.this), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesRepairableException: "+ e.getMessage());
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException: "+ e.getMessage());
-                }
-            }
-        });
-
-/*        protected void onActivityResultt(int requestCode, int resultCode, Intent dataa) {
-            if (requestCode == PLACE_PICKER_REQUEST) {
-                if (resultCode == RESULT_OK) {
-                    Place place = PlacePicker.getPlace(dataa, this);
-                    String toastMsg = String.format("Place: %s", place.getName());
-                    Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                }
-            }
-        }*/
-
-
-      boolean mPatvirtintas = false;
-      boolean mPerziuretas = false;
-
+        boolean mPatvirtintas = false;
+        boolean mPerziuretas = false;
 
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +134,41 @@ public class pranesti extends Activity {
             }
 
         });
+        btnGetPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPlaceAndSetPlaceText();
+            }
+        });
+
+    }
+
+    private void getPlaceAndSetPlaceText() {
+
+        // construct a new instance of SimpleLocation
+        location = new SimpleLocation(this);
+
+        // if we can't access the location yet
+        if (!location.hasLocationEnabled()) {
+            // ask the user to enable location access
+            SimpleLocation.openSettings(this);
+        }
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            addressesList = geocoder.getFromLocation(latitude,longitude,1);
+
+            mAddress = addressesList.get(0).getAddressLine(0);
+
+            tvPlace.setText(mAddress);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //tvPlace.setText(String.valueOf(latitude + "   " + longitude));
+
 
     }
 
@@ -149,7 +176,7 @@ public class pranesti extends Activity {
     private void uploadImage() {
 
 
-        if (filePath !=null){
+        if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Keliama.");
             progressDialog.show();
@@ -160,7 +187,7 @@ public class pranesti extends Activity {
             DatabaseReference myRef = database.getReference("message");
             myRef.setValue(filePath);*/
             String randomPath = UUID.randomUUID().toString();
-            StorageReference ref = storageReference.child("images/"+ randomPath);
+            StorageReference ref = storageReference.child("images/" + randomPath);
             final long timeStamp = mTime.getTime();
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -176,9 +203,9 @@ public class pranesti extends Activity {
 //                                   Intent intent = new Intent (pranesti.this, Redaktorius.class);
 //                                    startActivity(intent);
 
-                                 //   boolean mPatvirtintas = false;
-                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString() ,
-                                            timeStamp, mPatvirtintas, mPerziuretas);
+                                    //   boolean mPatvirtintas = false;
+                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
+                                            timeStamp, mPatvirtintas, mPerziuretas, mAddress);
                                     String uploadId = mDatabase.push().getKey();
                                     mDatabase.child(uploadId).setValue(upload);
 
@@ -189,7 +216,7 @@ public class pranesti extends Activity {
                             Date data = new Date();
                             String dateString = new SimpleDateFormat("MM/dd/yyyy").format(timeStamp);
 
-                        Toast.makeText(pranesti.this,dateString,Toast.LENGTH_LONG).show();
+                            Toast.makeText(pranesti.this, dateString, Toast.LENGTH_LONG).show();
 
 
 
@@ -203,19 +230,18 @@ public class pranesti extends Activity {
                     })
 
 
-
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText (pranesti.this, "Klaida"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pranesti.this, "Klaida" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100 * 0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded"+(int)progress+"%");
+                            double progress = (100 * 0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploaded" + (int) progress + "%");
                         }
                     });
         }
@@ -233,7 +259,7 @@ public class pranesti extends Activity {
 
     }
 
-    @Override
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -284,4 +310,5 @@ public class pranesti extends Activity {
         }
         return path;
     }
+
 }
