@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,13 +37,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+import static android.content.ContentValues.TAG;
+
 public class pranesti extends Activity {
 
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
     public static final String DATABASE_PATH_UPLOADS = "uploads";
+    int PLACE_PICKER_REQUEST = 1;
 
 
-    //   private EditText mEditTextFileName;
     private StorageReference mStorageRef;
     private FirebaseAnalytics mFirebaseAnalytics;
     private Button btnChoose, btnUpload;
@@ -92,25 +95,33 @@ public class pranesti extends Activity {
         mValstnum = findViewById(R.id.valstnum);
 
         vieta = (TextView) findViewById(R.id.Vieta);
-        final int PLACE_PICKER_REQUEST = 1;
+
 
         vieta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-                Intent intent;
                 try {
-                    intent = builder.build((pranesti) getApplicationContext());
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                    startActivityForResult(builder.build(pranesti.this), PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                }
-                catch (GooglePlayServicesNotAvailableException e){
-                    e.printStackTrace();
+                    Log.e(TAG, "onClick: GooglePlayServicesRepairableException: "+ e.getMessage());
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException: "+ e.getMessage());
                 }
             }
         });
+
+/*        protected void onActivityResultt(int requestCode, int resultCode, Intent dataa) {
+            if (requestCode == PLACE_PICKER_REQUEST) {
+                if (resultCode == RESULT_OK) {
+                    Place place = PlacePicker.getPlace(dataa, this);
+                    String toastMsg = String.format("Place: %s", place.getName());
+                    Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                }
+            }
+        }*/
 
 
       boolean mPatvirtintas = false;
@@ -241,8 +252,6 @@ public class pranesti extends Activity {
                 imageView.setImageBitmap(photo);
             }
         }
-
-
 
     }
 
