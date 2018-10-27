@@ -46,7 +46,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
@@ -54,7 +54,15 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
         String formattedDate = simpleDateFormat.format(date);
 
+        Picasso.get()
+                .load(mItemsList.get(position)
+                        .getImageUrl())
+                .fit()
+                .centerCrop()
+                .into(holder.ivFoto);
+
         holder.tvValstybinisNr.setText(mItemsList.get(position).getValstnum());
+        holder.tvAprasymas.setText(mItemsList.get(position).getName());
         holder.tvAdresas.setText(address);
         holder.tvData.setText(formattedDate);
 
@@ -69,7 +77,15 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             }
         });
 
-        Picasso.get().load(mItemsList.get(position).getImageUrl()).into(holder.ivFoto);
+        holder.ivFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = mItemsList.get(position).getImageUrl();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -79,19 +95,21 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView tvValstybinisNr, tvAdresas, tvData;
+        public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
         public ImageView ivFoto;
         public Context context;
 
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvValstybinisNr = itemView.findViewById(R.id.tv_valst_nr);
-            tvAdresas = itemView.findViewById(R.id.tv_adressas);
-            tvData = itemView.findViewById(R.id.tv_data);
-            ivFoto = itemView.findViewById(R.id.iv_foto);
 
-            context = itemView.getContext();
+            tvValstybinisNr = itemView.findViewById(R.id.tv_valst_nr);
+            tvAdresas       = itemView.findViewById(R.id.tv_adressas);
+            tvAprasymas     = itemView.findViewById(R.id.tv_aprasymas);
+            tvData          = itemView.findViewById(R.id.tv_data);
+            ivFoto          = itemView.findViewById(R.id.iv_foto);
+
+            context         = itemView.getContext();
         }
 
         @Override

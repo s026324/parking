@@ -2,5 +2,16 @@
     <string name="app_name">wrongparking</string>
     <color name="white">#FFFFFF</color>
     <string name="your_string"><u>Prisijungimas redaktoriui</u></string>
-    <string name="pazeidimai_title">Uzfiksuoti pazeidimai</string>
+    <string name="pazeidimai_title">Pazeidimai</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -54,7 +54,7 @@ public class RedLogin extends Activity {
             public void onClick(View v) {
 
                 //change when release
-               // startActivity(new Intent(RedLogin.this, Redaktorius.class));
+                //startActivity(new Intent(RedLogin.this, Redaktorius.class));
                 startSignIn();
 
             }

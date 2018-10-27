@@ -13,9 +13,12 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
@@ -27,9 +30,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mindorks.paracamera.Camera;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -76,8 +83,8 @@ public class pranesti extends Activity {
 
     private final int CAMERA_REQUEST = 1888;
 
-    double longitude;
-    double latitude;
+    double mLongitude;
+    double mLatitude;
 
     //Firebase
     // FirebaseStorage storage;
@@ -87,11 +94,29 @@ public class pranesti extends Activity {
     private StorageReference storageReference;
     private DatabaseReference mDatabase;
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
-    private SimpleLocation location;
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
+    private FusedLocationProviderClient mFusedLocationClient;
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
+
+    private String mLatitudeLabel;
+    private String mLongitudeLabel;
+
     Geocoder geocoder;
     List<Address> addressesList;
+
+    Camera camera;
+
+    int returnable = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +124,7 @@ public class pranesti extends Activity {
         setContentView(R.layout.pranesti);
         //  System.out.println(mDate);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mTime = new Date();
         // mStorageRef = FirebaseStorage.getInstance().getReference();
 //        storage = FirebaseStorage.getInstance();
@@ -117,10 +143,6 @@ public class pranesti extends Activity {
         mValstnum = findViewById(R.id.valstnum);
 
 
-        boolean mPatvirtintas = false;
-        boolean mPerziuretas = false;
-
-
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,35 +156,41 @@ public class pranesti extends Activity {
             }
 
         });
+
+
+
+
         btnGetPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPlaceAndSetPlaceText();
+                getPlaceAndSetPlaceText(mLatitude, mLongitude);
             }
         });
 
     }
 
-    private void getPlaceAndSetPlaceText() {
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        // construct a new instance of SimpleLocation
-        location = new SimpleLocation(this);
-
-        // if we can't access the location yet
-        if (!location.hasLocationEnabled()) {
-            // ask the user to enable location access
-            SimpleLocation.openSettings(this);
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getLastLocation();
         }
+    }
 
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+    private void getPlaceAndSetPlaceText(double pLatidute, double pLongitude) {
+
+
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
-            addressesList = geocoder.getFromLocation(latitude,longitude,1);
+            addressesList = geocoder.getFromLocation(pLatidute,pLongitude,1);
 
             mAddress = addressesList.get(0).getAddressLine(0);
 
             tvPlace.setText(mAddress);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,6 +200,179 @@ public class pranesti extends Activity {
 
     }
 
+    /**
+     * Provides a simple way of getting a device's location and is well suited for
+     * applications that do not require a fine-grained location and that do not need location
+     * updates. Gets the best and most recent location currently available, which may be null
+     * in rare cases when a location is not available.
+     * <p>
+     * Note: this method should be called after location permission has been granted.
+     */
+    @SuppressWarnings("MissingPermission")
+    private int getLastLocation() {
+        returnable = 0;
+        mFusedLocationClient.getLastLocation()
+                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            mLastLocation = task.getResult();
+
+                            mLatitude = mLastLocation.getLatitude();
+                            mLongitude = mLastLocation.getLongitude();
+                            mLatitudeLabel = (String.format(Locale.ENGLISH, "%s: %f",
+                                    mLatitudeLabel,
+                                    mLastLocation.getLatitude()));
+                            mLongitudeLabel = (String.format(Locale.ENGLISH, "%s: %f",
+                                    mLongitudeLabel,
+                                    mLastLocation.getLongitude()));
+                            returnable =  1;
+                        } else {
+                            Log.w(TAG, "getLastLocation:exception", task.getException());
+                            showSnackbar("No locattion for now");
+                            returnable = 0;
+                        }
+                    }
+                });
+        return returnable;
+    }
+
+    /**
+     * Shows a {@link Snackbar} using {@code text}.
+     *
+     * @param text The Snackbar text.
+     */
+    private void showSnackbar(final String text) {
+        View container = findViewById(R.id.content);
+        if (container != null) {
+            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Shows a {@link Snackbar}.
+     *
+     * @param mainTextStringId The id for the string resource for the Snackbar text.
+     * @param actionStringId   The text of the action item.
+     * @param listener         The listener associated with the Snackbar action.
+     */
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
+    /**
+     * Return the current state of the permissions needed.
+     */
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void startLocationPermissionRequest() {
+        ActivityCompat.requestPermissions(pranesti.this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+
+    private void requestPermissions() {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        // Provide an additional rationale to the user. This would happen if the user denied the
+        // request previously, but didn't check the "Don't ask again" checkbox.
+        if (shouldProvideRationale) {
+            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+
+            showSnackbar(R.string.permission_rationale, android.R.string.ok,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Request permission
+                            startLocationPermissionRequest();
+                        }
+                    });
+
+        } else {
+            Log.i(TAG, "Requesting permission");
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            startLocationPermissionRequest();
+        }
+    }
+
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                isStoragePermissionGranted();
+                getLastLocation();
+            } else {
+                // Permission denied.
+
+                // Notify the user via a SnackBar that they have rejected a core permission for the
+                // app, which makes the Activity useless. In a real app, core permissions would
+                // typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+            }
+        }
+    }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
 
     private void uploadImage() {
 
@@ -254,8 +455,24 @@ public class pranesti extends Activity {
         //   intent.setAction(Intent.ACTION_GET_CONTENT);
         //   startActivityForResult(intent.createChooser(intent, "Pasirinkti"),PICK_IMAGE_REQUEST);
 
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+        camera = new Camera.Builder()
+                .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
+                .setTakePhotoRequestCode(1)
+                .setDirectory("pics")
+                .setName("ali_" + System.currentTimeMillis())
+                .setImageFormat(Camera.IMAGE_JPEG)
+                .setCompression(75)
+                .setImageHeight(1000)// it will try to achieve this height as close as possible maintaining the aspect ratio;
+                .build(this);
+
+        try {
+            camera.takePicture();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -268,14 +485,23 @@ public class pranesti extends Activity {
         //  callbackManager.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode != RESULT_CANCELED){
-            if (requestCode == CAMERA_REQUEST) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                filePath =  getImageUri(getApplicationContext(), photo);
-                // CALL THIS METHOD TO GET THE ACTUAL PATH
-                String realPath = getRealPathFromURI(filePath);
-
-                System.out.println(realPath);
-                imageView.setImageBitmap(photo);
+//            if (requestCode == CAMERA_REQUEST) {
+//                Bitmap photo = (Bitmap) data.getExtras().get("data");
+//                filePath =  getImageUri(getApplicationContext(), photo);
+//                // CALL THIS METHOD TO GET THE ACTUAL PATH
+//                String realPath = getRealPathFromURI(filePath);
+//
+//                System.out.println(realPath);
+//                imageView.setImageBitmap(photo);
+//            }
+            if(requestCode == Camera.REQUEST_TAKE_PHOTO){
+                Bitmap bitmap = camera.getCameraBitmap();
+                if(bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
+                    filePath = getImageUri(this,bitmap);
+                }else{
+                    Toast.makeText(this.getApplicationContext(),"Picture not taken!",Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
