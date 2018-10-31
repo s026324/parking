@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Redaktorius">
 
     <Button
+        android:background="@color/blue"
         android:id="@+id/buttonout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,14 +16,14 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:onClick="onClick"
-        android:text="Atsijungti nuo redaktoriaus pulto"
+        android:text="Atsijungti"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="73dp"
         tools:layout_editor_absoluteY="297dp" />
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/bambo"
+        android:id="@+id/reda"
         android:layout_width="match_parent"
         android:layout_height="658dp"
         android:layout_alignParentBottom="true"

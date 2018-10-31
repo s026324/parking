@@ -7,37 +7,45 @@
     tools:context=".MainActivity">
 
 
+    <Button
+        android:id="@+id/pranesti"
+        android:layout_width="363dp"
+        android:layout_height="46dp"
+        android:background="@color/blue"
+        android:onClick="onButtonClick"
+        android:text="Pranešti"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintVertical_bias="0.341" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pazeidusiu KET appsas"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Jeigu matote transporto priemonės stovėjimo tvarkos pažeidimą - Spauskite mygtuką PRANEŠTI ir praneškite pažeidimą!"
+        android:textColor="@color/black"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/pranesti"
-        android:layout_width="316dp"
-        android:layout_height="67dp"
-        android:onClick="onButtonClick"
-        android:text="Pranesti"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <Button
         android:id="@+id/button2"
-        android:layout_width="315dp"
-        android:layout_height="68dp"
-        android:text="Pazeidimai"
+        android:layout_width="363dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/blue"
         android:onClick="onPazeidimaiClick"
-        app:layout_constraintBottom_toTopOf="@+id/pranesti"
+        android:text="Pažeidimai"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -55,15 +63,18 @@
 
     <TextView
         android:id="@+id/RedLogin"
-        android:layout_width="180dp"
-        android:layout_height="23dp"
+        android:layout_width="363dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:gravity="center_horizontal"
         android:onClick="onButtonClickLogin"
         android:text="@string/your_string"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pranesti" />
+        app:layout_constraintTop_toBottomOf="@+id/pranesti"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>
