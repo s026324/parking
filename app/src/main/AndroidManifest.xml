@@ -24,9 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pranesti" />
+        <activity android:name=".pranesti"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity android:name=".RedLogin" />
         <activity android:name=".Redaktorius" />
+
         <activity android:name=".PazeidimaiActivity"></activity>
     </application>
 

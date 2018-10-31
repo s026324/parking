@@ -46,7 +46,6 @@ public class PazeidimaiActivity extends AppCompatActivity {
                     if(singleItem.isPatvirtintas()){
                         itemsList.add(singleItem);
                     }
-
                 }
                 adapter = new PazeidimasAdapter(PazeidimaiActivity.this,itemsList);
                 recyclerView.setAdapter(adapter);
@@ -56,7 +55,7 @@ public class PazeidimaiActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-               Toast.makeText(PazeidimaiActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+               Toast.makeText(PazeidimaiActivity.this, "Kažkas blogai...", Toast.LENGTH_SHORT).show();
             }
         });
 

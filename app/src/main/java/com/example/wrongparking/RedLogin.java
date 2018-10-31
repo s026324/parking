@@ -41,20 +41,18 @@ public class RedLogin extends Activity {
 
                 if (firebaseAuth.getCurrentUser() != null){
 
-                    //For faster login
                     startActivity(new Intent(RedLogin.this, Redaktorius.class));
+                    finish();
 
                 }
-
             }
         };
+
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //change when release
-                //startActivity(new Intent(RedLogin.this, Redaktorius.class));
                 startSignIn();
 
             }
@@ -74,18 +72,18 @@ public class RedLogin extends Activity {
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
 
-            Toast.makeText(RedLogin.this, "Uzpildykite visus laukus", Toast.LENGTH_LONG).show();
+            Toast.makeText(RedLogin.this, "Užpildykite visus laukus", Toast.LENGTH_LONG).show();
 
         } else {
 
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(RedLogin.this, "ok", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RedLogin.this, "Prisijungėt", Toast.LENGTH_LONG).show();
                     } else{
-                        Toast.makeText(RedLogin.this, "neok", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RedLogin.this, "Neteisingai suvesti duomenis", Toast.LENGTH_LONG).show();
                 }
 
                 }

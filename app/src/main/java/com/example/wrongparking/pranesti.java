@@ -8,10 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
+
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,16 +46,11 @@ import com.mindorks.paracamera.Camera;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-
-import im.delight.android.location.SimpleLocation;
-
-import static android.content.ContentValues.TAG;
 
 public class pranesti extends Activity {
     static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -134,6 +128,8 @@ public class pranesti extends Activity {
         mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS);
 
         //   mEditTextFileName = findViewById(R.id.edit_text_file_name);
+
+
         btnChoose = (Button) findViewById(R.id.choose);
         btnUpload = (Button) findViewById(R.id.upload);
         btnGetPlace = findViewById(R.id.btn_get_place);
@@ -152,7 +148,7 @@ public class pranesti extends Activity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImage();
+                upload();
             }
 
         });
@@ -194,8 +190,6 @@ public class pranesti extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //tvPlace.setText(String.valueOf(latitude + "   " + longitude));
 
 
     }
@@ -374,7 +368,7 @@ public class pranesti extends Activity {
         }
     }
 
-    private void uploadImage() {
+    private void upload() {
 
 
         if (filePath != null) {
@@ -382,11 +376,6 @@ public class pranesti extends Activity {
             progressDialog.setTitle("Keliama.");
             progressDialog.show();
 
-
-
-/*            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("message");
-            myRef.setValue(filePath);*/
             String randomPath = UUID.randomUUID().toString();
             StorageReference ref = storageReference.child("images/" + randomPath);
             final long timeStamp = mTime.getTime();
@@ -396,15 +385,12 @@ public class pranesti extends Activity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(pranesti.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(pranesti.this, "Įkelta", Toast.LENGTH_LONG).show();
 
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-//                                   Intent intent = new Intent (pranesti.this, Redaktorius.class);
-//                                    startActivity(intent);
 
-                                    //   boolean mPatvirtintas = false;
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
                                             timeStamp, mPatvirtintas, mPerziuretas, mAddress);
                                     String uploadId = mDatabase.push().getKey();
@@ -414,18 +400,12 @@ public class pranesti extends Activity {
                             });
 
 
-                            Date data = new Date();
-                            String dateString = new SimpleDateFormat("MM/dd/yyyy").format(timeStamp);
+                         //   Date data = new Date();
+                         //   String dateString = new SimpleDateFormat("MM/dd/yyyy").format(timeStamp);
 
-                            Toast.makeText(pranesti.this, dateString, Toast.LENGTH_LONG).show();
-
-
+                      //      Toast.makeText(pranesti.this, dateString, Toast.LENGTH_LONG).show();
 
 
-/*                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                    taskSnapshot.getDownloadUrl().toString());
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);*/
 
                         }
                     })
@@ -442,21 +422,18 @@ public class pranesti extends Activity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100 * 0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded" + (int) progress + "%");
+                            progressDialog.setMessage("Keliama:" + (int) progress + "%");
                         }
                     });
+        }
+        else {
+            Toast.makeText(this.getApplicationContext(),"Užpildykite visą formą!",Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void chooseImage() {
-        //    Intent intent = new Intent();
-        //  intent.setType("image/*");
-        //   intent.setAction(Intent.ACTION_GET_CONTENT);
-        //   startActivityForResult(intent.createChooser(intent, "Pasirinkti"),PICK_IMAGE_REQUEST);
 
-//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
         camera = new Camera.Builder()
                 .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
@@ -481,40 +458,19 @@ public class pranesti extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        //    pranesti callbackManager = null;
-        //  callbackManager.onActivityResult(requestCode, resultCode, data);
-
         if(resultCode != RESULT_CANCELED){
-//            if (requestCode == CAMERA_REQUEST) {
-//                Bitmap photo = (Bitmap) data.getExtras().get("data");
-//                filePath =  getImageUri(getApplicationContext(), photo);
-//                // CALL THIS METHOD TO GET THE ACTUAL PATH
-//                String realPath = getRealPathFromURI(filePath);
-//
-//                System.out.println(realPath);
-//                imageView.setImageBitmap(photo);
-//            }
             if(requestCode == Camera.REQUEST_TAKE_PHOTO){
                 Bitmap bitmap = camera.getCameraBitmap();
                 if(bitmap != null) {
                     imageView.setImageBitmap(bitmap);
                     filePath = getImageUri(this,bitmap);
                 }else{
-                    Toast.makeText(this.getApplicationContext(),"Picture not taken!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.getApplicationContext(),"Klaida!",Toast.LENGTH_SHORT).show();
                 }
             }
         }
-
     }
 
-    // if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-    //        && data != null && data.getData() != null) {
-    //  filePath = data.getData();
-    //  try {
-    //      Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-    //      imageView.setImageBitmap(bitmap);
-    //  } catch (IOException e) {
-    //      e.printStackTrace();
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
