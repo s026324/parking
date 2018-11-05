@@ -11,14 +11,16 @@
         android:id="@+id/pranesti"
         android:layout_width="363dp"
         android:layout_height="46dp"
-        android:background="@color/blue"
+        android:background="@drawable/buttonshape"
         android:onClick="onButtonClick"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Pranešti"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.341" />
+        app:layout_constraintVertical_bias="0.312" />
 
     <TextView
         android:id="@+id/textView"
@@ -29,7 +31,7 @@
         android:gravity="center_horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Jeigu matote transporto priemonės stovėjimo tvarkos pažeidimą - Spauskite mygtuką PRANEŠTI ir praneškite pažeidimą!"
+        android:text=" Pastebėjote transporto priemonių stovėjimo tvarkos pažeidimą?  Praneškite mums!"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,8 +44,10 @@
         android:layout_width="363dp"
         android:layout_height="46dp"
         android:layout_marginTop="48dp"
-        android:background="@color/blue"
+        android:background="@drawable/buttonshape"
         android:onClick="onPazeidimaiClick"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Pažeidimai"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +55,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:contentDescription="TODO"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"

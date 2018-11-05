@@ -6,6 +6,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".RedLogin">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="Prisijungimas redaktoriui"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/mEmail"
         android:layout_width="wrap_content"
@@ -29,7 +40,7 @@
         android:inputType="textPassword" />
 
     <Button
-        android:background="@color/blue"
+        android:background="@drawable/buttonshape"
         android:id="@+id/mbutton"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
