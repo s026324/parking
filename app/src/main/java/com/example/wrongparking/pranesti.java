@@ -132,6 +132,7 @@ public class pranesti extends Activity {
 
         btnChoose = (Button) findViewById(R.id.choose);
         btnUpload = (Button) findViewById(R.id.upload);
+        btnUpload.setVisibility(View.GONE);
         btnGetPlace = findViewById(R.id.btn_get_place);
         tvPlace = findViewById(R.id.tv_place_adress);
         imageView = (ImageView) findViewById(R.id.imageView2);
@@ -185,7 +186,7 @@ public class pranesti extends Activity {
 
             mAddress = addressesList.get(0).getAddressLine(0);
 
-            tvPlace.setText(mAddress);
+            tvPlace.setText("Vieta: " + mAddress);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -372,6 +373,8 @@ public class pranesti extends Activity {
 
 
         if (filePath != null) {
+
+
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Keliama.");
             progressDialog.show();
@@ -464,6 +467,7 @@ public class pranesti extends Activity {
                 if(bitmap != null) {
                     imageView.setImageBitmap(bitmap);
                     filePath = getImageUri(this,bitmap);
+                    btnUpload.setVisibility(View.VISIBLE);
                 }else{
                     Toast.makeText(this.getApplicationContext(),"Klaida!",Toast.LENGTH_SHORT).show();
                 }

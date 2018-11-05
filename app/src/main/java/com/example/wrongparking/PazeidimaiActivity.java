@@ -1,8 +1,8 @@
 package com.example.wrongparking;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -20,6 +20,7 @@ public class PazeidimaiActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     RecyclerView recyclerView;
     ArrayList<Upload> itemsList;
+
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
 
@@ -29,8 +30,12 @@ public class PazeidimaiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pazeidimai);
 
         layoutManager = new LinearLayoutManager(PazeidimaiActivity.this, LinearLayoutManager.VERTICAL, false);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        //layoutManager.setReverseLayout(true);
         recyclerView = (RecyclerView) findViewById(R.id.rc_pazeidimai);
         recyclerView.setLayoutManager( layoutManager);
+
 
 
 

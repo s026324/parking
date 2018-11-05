@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, pranesti.class);
         startActivity(i);
         }
-    }
+}
     public void onButtonClickLogin(View r)
     {
         if(r.getId() == R.id.RedLogin){

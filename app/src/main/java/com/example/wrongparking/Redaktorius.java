@@ -22,32 +22,37 @@ public class Redaktorius extends AppCompatActivity {
 
     DatabaseReference reference;
     RecyclerView recyclerView;
-    ArrayList<Upload> list;
+    ArrayList<Upload> itemsList;
     public static Recycler adapter;
+    LinearLayoutManager layoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_redaktorius);
 
+
+        layoutManager = new LinearLayoutManager(Redaktorius.this, LinearLayoutManager.VERTICAL, false);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView = (RecyclerView) findViewById(R.id.reda);
-        recyclerView.setLayoutManager( new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
 
 
         reference = FirebaseDatabase.getInstance().getReference().child("uploads");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList<Upload>();
+                itemsList = new ArrayList<Upload>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
                 {
                     Upload p = dataSnapshot1.getValue(Upload.class);
                     assert p != null;
                     if(!p.isPerziuretas()){
-                        list.add(p);
+                        itemsList.add(p);
                     }
 
                 }
-                 adapter = new Recycler(Redaktorius.this,list);
+                 adapter = new Recycler(Redaktorius.this,itemsList);
                 recyclerView.setAdapter(adapter);
             }
 
