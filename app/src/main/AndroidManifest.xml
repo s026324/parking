@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -17,19 +19,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".PazeidimaiActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pranesti"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name=".RedLogin" />
-        <activity android:name=".Redaktorius" />
+        <activity
+            android:name=".pranesti"
 
-        <activity android:name=".PazeidimaiActivity"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".RedLogin"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Redaktorius"
+            android:theme="@style/AppTheme" />
+
+<!--        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test"></activity>-->
     </application>
 
 </manifest>

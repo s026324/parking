@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_above="@id/upload"
 
     android:id="@+id/content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:orientation="vertical" >
-
-
-    <TextView
-        android:textStyle="bold"
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Pranešimo forma"
-        android:textColor="@color/black"
-        android:textSize="25dp" />
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Fiksuoti pažeidimai" />
 
 
         <TextView
@@ -66,54 +67,64 @@
             android:paddingRight="10dp" />
 
 
-    <Button
-        android:id="@+id/btn_get_place"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edit_text_file_name"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/buttonshape"
-        android:text="Pateikti adresą" />
+        <Button
+            android:id="@+id/btn_get_place"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edit_text_file_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/buttonshape"
+            android:text="Pateikti adresą" />
 
-    <TextView
-        android:textSize="20dp"
-        android:id="@+id/tv_place_adress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_get_place"
-        android:layout_margin="10dp"
-        android:text="Vieta nenustatyta"
-        android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/tv_place_adress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_get_place"
+            android:layout_margin="10dp"
+            android:text="Vieta nenustatyta"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/choose"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_above="@+id/valstnum"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/buttonshape"
-        android:text="Pridėti nuotrauką" />
+        <Button
+            android:id="@+id/choose"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/valstnum"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/buttonshape"
+            android:text="Pridėti nuotrauką" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="230dp"
 
             android:adjustViewBounds="false"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             app:srcCompat="?android:attr/actionModeSelectAllDrawable" />
 
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/navigation" />
+
         <LinearLayout
             android:id="@+id/LinearLayouts02"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="bottom|end">
+            android:gravity="bottom|end"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/upload"

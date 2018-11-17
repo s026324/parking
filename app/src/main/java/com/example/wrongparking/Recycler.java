@@ -112,6 +112,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
                         mItemsList.remove(position);
                         Redaktorius.adapter.notifyItemRemoved(position);
+
                     }
 
                     @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">wrongparking</string>
+    <string name="app_name">Prisiparkavau</string>
 
     <string name="your_string"><u>Prisijungimas redaktoriui</u></string>
     <string name="pazeidimai_title">Pazeidimai</string>
@@ -14,4 +14,8 @@
     <string name="permission_denied_explanation">Permission was denied, but is needed for core
         functionality.</string>
     <string name="settings">Settings</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_home">Pažeidimai</string>
+    <string name="title_dashboard">Pranešti</string>
+    <string name="title_notifications">Mano pranešimai</string>
 </resources>

@@ -81,9 +81,9 @@ public class RedLogin extends Activity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(RedLogin.this, "Prisijungėt", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RedLogin.this, "Prisijungėte", Toast.LENGTH_LONG).show();
                     } else{
-                        Toast.makeText(RedLogin.this, "Neteisingai suvesti duomenis", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RedLogin.this, "Neteisingai suvesti duomenys", Toast.LENGTH_LONG).show();
                 }
 
                 }

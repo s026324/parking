@@ -8,16 +8,21 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,12 +30,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -112,11 +113,46 @@ public class pranesti extends Activity {
 
     int returnable = 0;
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+
+                    Intent i = new Intent(pranesti.this, PazeidimaiActivity.class);
+                    startActivity(i);
+
+                    /*                    mTextMessage.setText("homessss");*/
+                    return true;
+                case R.id.navigation_dashboard:
+                    Intent j = new Intent(pranesti.this, RedLogin.class);
+                    startActivity(j);
+
+                    /*                    mTextMessage.setText("bam");*/
+                    return true;
+                case R.id.navigation_notifications:
+                    Intent k = new Intent(pranesti.this, pranesti.class);
+                    startActivity(k);
+                    /*                    mTextMessage.setText("pisk");*/
+                    return true;
+            }
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pranesti);
+
+
+
         //  System.out.println(mDate);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mTime = new Date();
@@ -165,6 +201,9 @@ public class pranesti extends Activity {
         });
 
     }
+
+
+
 
     @Override
     protected void onStart() {
@@ -388,7 +427,7 @@ public class pranesti extends Activity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(pranesti.this, "Įkelta", Toast.LENGTH_LONG).show();
+                            Toast.makeText(pranesti.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
 
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
@@ -496,5 +535,24 @@ public class pranesti extends Activity {
         }
         return path;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        setTitle("Fiksuoti pažeidimai");
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.item1) {
+            Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
