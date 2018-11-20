@@ -45,7 +45,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);

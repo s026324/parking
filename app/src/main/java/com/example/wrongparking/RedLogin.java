@@ -1,10 +1,13 @@
 package com.example.wrongparking;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RedLogin extends Activity {
+public class RedLogin extends AppCompatActivity {
 
     private EditText mEmail_Edittext;
     private EditText mPass_Edittext;
@@ -25,10 +28,45 @@ public class RedLogin extends Activity {
 
     private  FirebaseAuth.AuthStateListener mAuthListener;
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.pazeidimai_nav:
+
+                    Intent i = new Intent(RedLogin.this, PazeidimaiActivity.class);
+                    startActivity(i);
+
+
+                    return true;
+                case R.id.pranesti_nav:
+                    Intent j = new Intent(RedLogin.this, pranesti.class);
+                    startActivity(j);
+
+
+
+                    return true;
+                case R.id.manopranesimai_nav:
+                    Intent k = new Intent(RedLogin.this, ManoPranesimaiActivity.class);
+                    startActivity(k);
+
+                    return true;
+            }
+            return false;
+        }
+    };
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redlogin);
 
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mAuth = FirebaseAuth.getInstance();
 
         mEmail_Edittext = (EditText) findViewById(R.id.mEmail);
@@ -57,6 +95,24 @@ public class RedLogin extends Activity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        setTitle("Redaktoriaus prisijungimas");
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.item1) {
+            Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

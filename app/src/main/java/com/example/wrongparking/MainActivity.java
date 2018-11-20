@@ -16,20 +16,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.pazeidimai_nav:
 
                     Intent i = new Intent(MainActivity.this, PazeidimaiActivity.class);
                     startActivity(i);
 
                     /*                    mTextMessage.setText("homessss");*/
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.pranesti_nav:
                     Intent j = new Intent(MainActivity.this, RedLogin.class);
                     startActivity(j);
 
                     /*                    mTextMessage.setText("bam");*/
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.manopranesimai_nav:
                     Intent k = new Intent(MainActivity.this, pranesti.class);
                     startActivity(k);
                     /*                    mTextMessage.setText("pisk");*/

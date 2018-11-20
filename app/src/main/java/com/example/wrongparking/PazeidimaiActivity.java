@@ -29,28 +29,29 @@ public class PazeidimaiActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
 
-                case R.id.navigation_home:
+                case R.id.pazeidimai_nav:
 
                     Intent i = new Intent(PazeidimaiActivity.this, PazeidimaiActivity.class);
                     startActivity(i);
 
 
                     /*                    mTextMessage.setText("homessss");*/
-                    return true;
-                case R.id.navigation_dashboard:
+                    return false;
+                case R.id.pranesti_nav:
+
                     Intent j = new Intent(PazeidimaiActivity.this, pranesti.class);
                     startActivity(j);
 
                     /*                    mTextMessage.setText("bam");*/
 
-                    return true;
-                case R.id.navigation_notifications:
-                    Intent k = new Intent(PazeidimaiActivity.this, RedLogin.class);
+                    return false;
+                case R.id.manopranesimai_nav:
+                    Intent k = new Intent(PazeidimaiActivity.this, ManoPranesimaiActivity.class);
                     startActivity(k);
                     /*                    mTextMessage.setText("pisk");*/
-                    return true;
+                    return false;
             }
-            return false;
+            return true;
         }
     };
 
@@ -67,9 +68,17 @@ public class PazeidimaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pazeidimai);
 
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+/*        View view = navigation.findViewById(R.id.pazeidimai_nav);
+        view.performClick();*/
+/*
+        navigation.setSelectedItemId(R.id.pazeidimai_nav);*/
+
         layoutManager = new LinearLayoutManager(PazeidimaiActivity.this, LinearLayoutManager.VERTICAL, false);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
@@ -112,10 +121,15 @@ public class PazeidimaiActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.item1) {
             Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+        }
+        if (id == R.id.item2) {
+            Intent i = new Intent(PazeidimaiActivity.this, RedLogin.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

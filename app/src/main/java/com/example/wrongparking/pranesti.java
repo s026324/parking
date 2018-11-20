@@ -1,7 +1,6 @@
 package com.example.wrongparking;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -43,17 +44,22 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.mindorks.paracamera.Camera;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class pranesti extends Activity {
+import es.dmoral.prefs.Prefs;
+
+public class pranesti extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
     public static final String DATABASE_PATH_UPLOADS = "uploads";
@@ -93,6 +99,11 @@ public class pranesti extends Activity {
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
+    Gson gson ;
+    public static final String PREFS_KEY_PAZEIDIMAI = "pazeidimai_list";
+    ArrayList<Upload> pranesimaiList;
+    private String pazeidimaiJson = "";
+
     /**
      * Provides the entry point to the Fused Location Provider API.
      */
@@ -109,6 +120,7 @@ public class pranesti extends Activity {
     Geocoder geocoder;
     List<Address> addressesList;
 
+
     Camera camera;
 
     int returnable = 0;
@@ -119,23 +131,20 @@ public class pranesti extends Activity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.pazeidimai_nav:
 
                     Intent i = new Intent(pranesti.this, PazeidimaiActivity.class);
                     startActivity(i);
 
-                    /*                    mTextMessage.setText("homessss");*/
                     return true;
-                case R.id.navigation_dashboard:
-                    Intent j = new Intent(pranesti.this, RedLogin.class);
-                    startActivity(j);
+                case R.id.pranesti_nav:
 
-                    /*                    mTextMessage.setText("bam");*/
+
                     return true;
-                case R.id.navigation_notifications:
-                    Intent k = new Intent(pranesti.this, pranesti.class);
+                case R.id.manopranesimai_nav:
+                    Intent k = new Intent(pranesti.this, ManoPranesimaiActivity.class);
                     startActivity(k);
-                    /*                    mTextMessage.setText("pisk");*/
+
                     return true;
             }
             return false;
@@ -146,13 +155,29 @@ public class pranesti extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pranesti);
+        gson = new Gson();
+        pranesimaiList = new ArrayList<>();
 
+        pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI,"");
+        if (pazeidimaiJson.equals("")) {
+           // Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
+        } else {
+
+            Type founderListType = new TypeToken<ArrayList<Upload>>(){}.getType();
+
+            pranesimaiList = gson.fromJson(pazeidimaiJson, founderListType);
+            Log.e("pranesimaiList", "json: ->>>>> " + pazeidimaiJson);
+        }
 
 
         //  System.out.println(mDate);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        View view = navigation.findViewById(R.id.pranesti_nav);
+        view.performClick();
+/*        navigation.setSelectedItemId(R.id.pranesti_nav);*/
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mTime = new Date();
@@ -201,8 +226,6 @@ public class pranesti extends Activity {
         });
 
     }
-
-
 
 
     @Override
@@ -429,14 +452,27 @@ public class pranesti extends Activity {
                             progressDialog.dismiss();
                             Toast.makeText(pranesti.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
 
+                            Intent i = new Intent(pranesti.this, ManoPranesimaiActivity.class);
+                            startActivity(i);
+
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+
 
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
                                             timeStamp, mPatvirtintas, mPerziuretas, mAddress);
                                     String uploadId = mDatabase.push().getKey();
                                     mDatabase.child(uploadId).setValue(upload);
+
+                                    pranesimaiList.add(upload);
+
+                                    pazeidimaiJson = gson.toJson(pranesimaiList);
+                                    Log.e("naujasJson", pazeidimaiJson);
+                                    Prefs.with(pranesti.this).write(PREFS_KEY_PAZEIDIMAI,pazeidimaiJson);
+
+
+
 
                                 }
                             });
@@ -539,7 +575,7 @@ public class pranesti extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-        setTitle("Fiksuoti pažeidimai");
+        setTitle("Pranešimo forma");
 
         return true;
     }

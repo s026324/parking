@@ -7,9 +7,10 @@
         android:id="@+id/item1"
         app:showAsAction="never"/>
 
+
     <item
-        android:title="Prisijungimas redaktoriui"
-        android:id="@+id/item2"
+        android:title="Atsijungti"
+        android:id="@+id/logout"
         app:showAsAction="never"/>
 
 

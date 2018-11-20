@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,10 +66,33 @@ public class Redaktorius extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_redaktoriui, menu);
+        setTitle("Redaktoriaus pultas");
 
-
+        return true;
+    }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(Redaktorius.this, "Atsijunget", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), PazeidimaiActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+/*    @Override
     public void onBackPressed() {
         super.onBackPressed();
        // FirebaseAuth.getInstance().signOut();
@@ -77,16 +101,16 @@ public class Redaktorius extends AppCompatActivity {
         startActivity(intent);
         finish();
 
-    }
-
+    }*/
+/*
     public void onClick(View k) {
         if(k.getId() == R.id.buttonout){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(Redaktorius.this, "Atsijunget", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PazeidimaiActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         }
-        }
+        }*/
 }
