@@ -30,8 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,7 +68,7 @@ public class pranesti extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
     public static final String DATABASE_PATH_UPLOADS = "uploads";
-    int PLACE_PICKER_REQUEST = 1;
+    int PLACE_PICKER_REQUEST = 9871;
 
 
     private StorageReference mStorageRef;
@@ -221,7 +226,17 @@ public class pranesti extends AppCompatActivity {
         btnGetPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPlaceAndSetPlaceText(mLatitude, mLongitude);
+               // getPlaceAndSetPlaceText(mLatitude, mLongitude);
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(pranesti.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -239,12 +254,12 @@ public class pranesti extends AppCompatActivity {
         }
     }
 
-    private void getPlaceAndSetPlaceText(double pLatidute, double pLongitude) {
+    private void getPlaceAndSetPlaceText(LatLng latLng) {
 
 
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
-            addressesList = geocoder.getFromLocation(pLatidute,pLongitude,1);
+            addressesList = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
             mAddress = addressesList.get(0).getAddressLine(0);
 
@@ -535,6 +550,14 @@ public class pranesti extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+              //  Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                getPlaceAndSetPlaceText(place.getLatLng());
+            }
+        }
 
         if(resultCode != RESULT_CANCELED){
             if(requestCode == Camera.REQUEST_TAKE_PHOTO){

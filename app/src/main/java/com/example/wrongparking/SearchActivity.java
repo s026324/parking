@@ -55,7 +55,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void firebaseUserSearch() {
 
-        FirebaseRecyclerAdapter<Upload, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Upload, UsersViewHolder>
+      //  FirebaseRecyclerAdapter<Upload, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Upload, UsersViewHolder>
 
         /*(
 
@@ -67,21 +67,21 @@ public class SearchActivity extends AppCompatActivity {
         )*/
 
         {
-            @NonNull
-            @Override
-            public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-                    return null;
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Upload model) {
-                holder.setDetails(model.getValstnum(),model.getAddress(), model.getName(), model.getImageUrl());
-            }
+//            @NonNull
+//            @Override
+//            public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//
+//                    return null;
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Upload model) {
+//                holder.setDetails(model.getValstnum(),model.getAddress(), model.getName(), model.getImageUrl());
+//            }
 
         };
 
-        mResultList.setAdapter(firebaseRecyclerAdapter);
+      //  mResultList.setAdapter(firebaseRecyclerAdapter);
 
     }
 

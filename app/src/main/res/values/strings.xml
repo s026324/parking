@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Prisiparkavau</string>
 
+    <string name="map_api_key">AIzaSyCQ-PALXtwO4zlWtv2MbXVjD8aWebOf-kw</string>
+
     <string name="your_string"><u>Prisijungimas redaktoriui</u></string>
     <string name="pazeidimai_title">Pazeidimai</string>
     <string name="latitude_label">Latitude</string>
