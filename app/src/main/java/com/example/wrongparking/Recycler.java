@@ -31,7 +31,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
     public static final String MAPS_NAVIGATION_ACTION = "google.navigation:q=";
     public static final String MAPS_INTENT_PATH = "com.google.android.apps.maps";
-
+    private int type;
     private Context mContext;
     private LayoutInflater mInflater;
     private ArrayList<Upload> mItemsList;
@@ -39,10 +39,11 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     String address = "";
     Date date;
 
-    public Recycler(Context mContext, ArrayList<Upload> mItemsList) {
+    public Recycler(Context mContext, ArrayList<Upload> mItemsList, int type) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.mItemsList = mItemsList;
+        this.type = type;
     }
 
     @NonNull
@@ -58,6 +59,25 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
+
+        switch (type){
+            case Constants.TYPE_PATVIRTINTI:
+                holder.btnPatvirtinti.setVisibility(View.GONE);
+
+                break;
+            case Constants.TYPE_NEPATVIRTINIT:
+
+                break;
+            case Constants.TYPE_ATMESTI:
+                break;
+            case Constants.TYPE_VISI:
+                break;
+
+                default:
+
+                    break;
+
+        }
 
         String formattedDate = simpleDateFormat.format(date);
 

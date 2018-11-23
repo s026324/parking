@@ -3,20 +3,27 @@
 
     <item
         android:id="@+id/pazeidimai_nav"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_view_list_black_24dp"
         android:title="@string/title_home"
         android:enabled="true"/>
 
     <item
+        android:id="@+id/paieska_nav"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/title_notifications"
+        android:enabled="true"/>
+
+    <item
         android:id="@+id/pranesti_nav"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_add_black_24dp"
         android:title="@string/title_dashboard"
         android:enabled="true"/>
 
     <item
         android:id="@+id/manopranesimai_nav"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_featured_play_list_black_24dp"
         android:title="@string/title_notifications"
         android:enabled="true"/>
+
 
 </menu>

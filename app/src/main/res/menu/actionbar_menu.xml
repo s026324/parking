@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="Apie"
+        android:id="@+id/apie"
+        android:icon="@drawable/icon1"
+        app:showAsAction="always"
+        />
+
+    <item
         android:title="Apie aplikaciją"
         android:id="@+id/item1"
         app:showAsAction="never"/>

@@ -42,9 +42,14 @@
             android:name=".TestActivity"
             android:label="@string/title_activity_test"></activity>
         -->
-        <activity android:name=".ManoPranesimaiActivity"
-            android:parentActivityName=".PazeidimaiActivity"
-            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ManoPranesimaiActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".SearchActivity"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -92,9 +92,9 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
-        public ImageView ivFoto;
-        public Context context;
+            public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
+            public ImageView ivFoto;
+            public Context context;
 
         ViewHolder(View itemView) {
             super(itemView);

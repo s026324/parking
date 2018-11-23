@@ -8,6 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,46 +35,116 @@ public class Redaktorius extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_redaktorius);
 
+        Spinner mySpinner = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Redaktorius.this,
+        android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.redaktorius_aktyvuoti));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
 
-        layoutManager = new LinearLayoutManager(Redaktorius.this, LinearLayoutManager.VERTICAL, false);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        recyclerView = (RecyclerView) findViewById(R.id.reda);
-        recyclerView.setLayoutManager(layoutManager);
-
-
-        reference = FirebaseDatabase.getInstance().getReference().child("uploads");
-        reference.addValueEventListener(new ValueEventListener() {
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                itemsList = new ArrayList<Upload>();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                {
-                    Upload p = dataSnapshot1.getValue(Upload.class);
-                    assert p != null;
-                    if(!p.isPerziuretas()){
-                        itemsList.add(p);
-                    }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        //Nepatvirtinti
+                        layoutManager = new LinearLayoutManager(Redaktorius.this, LinearLayoutManager.VERTICAL, false);
+                        layoutManager.setReverseLayout(true);
+                        layoutManager.setStackFromEnd(true);
+                        recyclerView = (RecyclerView) findViewById(R.id.reda);
+                        recyclerView.setLayoutManager(layoutManager);
+
+
+                        reference = FirebaseDatabase.getInstance().getReference().child("uploads");
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                itemsList = new ArrayList<Upload>();
+                                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
+                                {
+                                    Upload p = dataSnapshot1.getValue(Upload.class);
+                                    assert p != null;
+                                    if(!p.isPerziuretas()){
+                                        itemsList.add(p);
+                                    }
+
+                                }
+                                adapter = new Recycler(Redaktorius.this,itemsList, Constants.TYPE_NEPATVIRTINIT);
+                                recyclerView.setAdapter(adapter);
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(Redaktorius.this, "Klaida", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    break;
+
+                    case 1:
+                        //PATVIRTINTI
+                        layoutManager = new LinearLayoutManager(Redaktorius.this, LinearLayoutManager.VERTICAL, false);
+                        layoutManager.setReverseLayout(true);
+                        layoutManager.setStackFromEnd(true);
+                        recyclerView = (RecyclerView) findViewById(R.id.reda);
+                        recyclerView.setLayoutManager(layoutManager);
+
+
+                        reference = FirebaseDatabase.getInstance().getReference().child("uploads");
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                itemsList = new ArrayList<Upload>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Upload singleItem = dataSnapshot1.getValue(Upload.class);
+                                    assert singleItem != null;
+                                    if (singleItem.isPatvirtintas()) {
+                                        itemsList.add(singleItem);
+                                    }
+                                }
+                                adapter = new Recycler(Redaktorius.this,itemsList, Constants.TYPE_PATVIRTINTI);
+                                recyclerView.setAdapter(adapter);
+                            }
+
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(Redaktorius.this, "Klaida", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                        break;
 
                 }
-                 adapter = new Recycler(Redaktorius.this,itemsList);
-                recyclerView.setAdapter(adapter);
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-
-        @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Redaktorius.this, "Klaida", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu_redaktoriui, menu);
         setTitle("Redaktoriaus pultas");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        Intent intent = new Intent(getApplicationContext(), PazeidimaiActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
         return true;
     }
 
@@ -81,7 +155,7 @@ public class Redaktorius extends AppCompatActivity {
         if (id == R.id.logout) {
 
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(Redaktorius.this, "Atsijunget", Toast.LENGTH_LONG).show();
+            Toast.makeText(Redaktorius.this, "Atsijungėte", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), PazeidimaiActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

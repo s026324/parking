@@ -1,5 +1,7 @@
 package com.example.wrongparking;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,24 +33,35 @@ public class PazeidimaiActivity extends AppCompatActivity {
 
                 case R.id.pazeidimai_nav:
 
+/*
                     Intent i = new Intent(PazeidimaiActivity.this, PazeidimaiActivity.class);
                     startActivity(i);
+*/
 
 
-                    /*                    mTextMessage.setText("homessss");*/
+
+                    return false;
+
+                case R.id.paieska_nav:
+
+                    Intent l = new Intent(PazeidimaiActivity.this, SearchActivity.class);
+                    startActivity(l);
+
+
                     return false;
                 case R.id.pranesti_nav:
 
                     Intent j = new Intent(PazeidimaiActivity.this, pranesti.class);
                     startActivity(j);
 
-                    /*                    mTextMessage.setText("bam");*/
 
                     return false;
+
+
                 case R.id.manopranesimai_nav:
                     Intent k = new Intent(PazeidimaiActivity.this, ManoPranesimaiActivity.class);
                     startActivity(k);
-                    /*                    mTextMessage.setText("pisk");*/
+
                     return false;
             }
             return true;
@@ -116,16 +129,42 @@ public class PazeidimaiActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
         setTitle("Fiksuoti pažeidimai");
+/*        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);*/
         return true;
     }
+
+/*    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
-        if (id == R.id.item1) {
-            Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+        if (id == R.id.apie) {
+/*                Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();*/
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    //set icon
+                    .setIcon(android.R.drawable.ic_menu_info_details)
+                    //set title
+                    .setTitle("Fiksuoti pažeidimai")
+                    //set message
+                    .setMessage("cia bus surasyta informacijaaaaaaaaaaaa")
+                    //set positive button
+                    .setPositiveButton("Supratau", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //set what would happen when positive button is clicked
+
+                        }
+                    })
+                    //set negative button
+                    .show();
         }
         if (id == R.id.item2) {
             Intent i = new Intent(PazeidimaiActivity.this, RedLogin.class);

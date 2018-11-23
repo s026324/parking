@@ -3,7 +3,6 @@ package com.example.wrongparking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -28,7 +27,7 @@ public class RedLogin extends AppCompatActivity {
 
     private  FirebaseAuth.AuthStateListener mAuthListener;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+/*    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
 
@@ -58,15 +57,16 @@ public class RedLogin extends AppCompatActivity {
             }
             return false;
         }
-    };
+    };*/
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redlogin);
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+/*        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
+
         mAuth = FirebaseAuth.getInstance();
 
         mEmail_Edittext = (EditText) findViewById(R.id.mEmail);
@@ -102,6 +102,15 @@ public class RedLogin extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
         setTitle("Redaktoriaus prisijungimas");
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
         return true;
     }
 

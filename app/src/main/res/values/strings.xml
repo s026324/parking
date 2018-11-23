@@ -18,4 +18,12 @@
     <string name="title_home">Pažeidimai</string>
     <string name="title_dashboard">Pranešti</string>
     <string name="title_notifications">Mano pranešimai</string>
+
+    <string-array name="redaktorius_aktyvuoti">
+
+        <item>Nepatvirtinti pranešimai</item>
+        <item>Patvirtinti pranešimai</item>
+
+    </string-array>
+
 </resources>
