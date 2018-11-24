@@ -73,9 +73,9 @@ public class pranesti extends AppCompatActivity {
 
     private StorageReference mStorageRef;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private Button btnChoose, btnUpload, btnGetPlace;
+    private Button btnChoose, btnUpload;
     private ImageView imageView;
-    private EditText mEditTextFileName;
+    private EditText mEditTextFileName, btnGetPlace;
     private EditText mValstnum;
     public Date mTime;
     Date mDate = Calendar.getInstance().getTime();
@@ -199,8 +199,8 @@ public class pranesti extends AppCompatActivity {
         btnChoose = (Button) findViewById(R.id.choose);
         btnUpload = (Button) findViewById(R.id.upload);
         btnUpload.setVisibility(View.GONE);
-        btnGetPlace = findViewById(R.id.btn_get_place);
-        tvPlace = findViewById(R.id.tv_place_adress);
+        btnGetPlace = findViewById(R.id.vietaID);
+        tvPlace = findViewById(R.id.vietaID);
         imageView = (ImageView) findViewById(R.id.imageView2);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
         mValstnum = findViewById(R.id.valstnum);
@@ -261,9 +261,14 @@ public class pranesti extends AppCompatActivity {
         try {
             addressesList = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
+            if (addressesList.size() == 0) {
+                Toast.makeText(pranesti.this, "Prašome patikslinti pasirinkta adresą", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             mAddress = addressesList.get(0).getAddressLine(0);
 
-            tvPlace.setText("Vieta: " + mAddress);
+            tvPlace.setText(mAddress);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,6 +294,7 @@ public class pranesti extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
                             mLastLocation = task.getResult();
+
 
                             mLatitude = mLastLocation.getLatitude();
                             mLongitude = mLastLocation.getLongitude();
