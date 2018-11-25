@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,6 +19,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -70,10 +70,12 @@ public class pranesti extends AppCompatActivity {
     public static final String DATABASE_PATH_UPLOADS = "uploads";
     int PLACE_PICKER_REQUEST = 9871;
 
+    boolean isAprasymasSet= false, isValsNrSet= false, isVietasSet= false, isNuotraukaSet = false;
 
     private StorageReference mStorageRef;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private Button btnChoose, btnUpload;
+    private ImageView btnChoose;
+    private Button btnUpload;
     private ImageView imageView;
     private EditText mEditTextFileName, btnGetPlace;
     private EditText mValstnum;
@@ -81,7 +83,6 @@ public class pranesti extends AppCompatActivity {
     Date mDate = Calendar.getInstance().getTime();
     private boolean mPatvirtintas;
     private boolean mPerziuretas;
-    private TextView tvPlace;
 
     String mAddress = "";
 
@@ -104,7 +105,7 @@ public class pranesti extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
-    Gson gson ;
+    Gson gson;
     public static final String PREFS_KEY_PAZEIDIMAI = "pazeidimai_list";
     ArrayList<Upload> pranesimaiList;
     private String pazeidimaiJson = "";
@@ -163,12 +164,13 @@ public class pranesti extends AppCompatActivity {
         gson = new Gson();
         pranesimaiList = new ArrayList<>();
 
-        pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI,"");
+        pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI, "");
         if (pazeidimaiJson.equals("")) {
-           // Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
+            // Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
         } else {
 
-            Type founderListType = new TypeToken<ArrayList<Upload>>(){}.getType();
+            Type founderListType = new TypeToken<ArrayList<Upload>>() {
+            }.getType();
 
             pranesimaiList = gson.fromJson(pazeidimaiJson, founderListType);
             Log.e("pranesimaiList", "json: ->>>>> " + pazeidimaiJson);
@@ -182,7 +184,7 @@ public class pranesti extends AppCompatActivity {
 
         View view = navigation.findViewById(R.id.pranesti_nav);
         view.performClick();
-/*        navigation.setSelectedItemId(R.id.pranesti_nav);*/
+        /*        navigation.setSelectedItemId(R.id.pranesti_nav);*/
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mTime = new Date();
@@ -196,14 +198,21 @@ public class pranesti extends AppCompatActivity {
         //   mEditTextFileName = findViewById(R.id.edit_text_file_name);
 
 
-        btnChoose = (Button) findViewById(R.id.choose);
+        btnChoose = (ImageView) findViewById(R.id.imageView2);
         btnUpload = (Button) findViewById(R.id.upload);
-        btnUpload.setVisibility(View.GONE);
+
+        btnUpload.setEnabled(false);
+
+        /*        btnUpload.setVisibility(View.GONE);*/
         btnGetPlace = findViewById(R.id.vietaID);
-        tvPlace = findViewById(R.id.vietaID);
         imageView = (ImageView) findViewById(R.id.imageView2);
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
+
+
         mValstnum = findViewById(R.id.valstnum);
+
+
+       // mValstnum.addTextChangedListener(bandommm);
 
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -221,12 +230,10 @@ public class pranesti extends AppCompatActivity {
         });
 
 
-
-
         btnGetPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // getPlaceAndSetPlaceText(mLatitude, mLongitude);
+                // getPlaceAndSetPlaceText(mLatitude, mLongitude);
 
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
@@ -240,8 +247,54 @@ public class pranesti extends AppCompatActivity {
             }
         });
 
+        setOnTextChangeListeners();
+
     }
 
+    private void setOnTextChangeListeners(){
+        mEditTextFileName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    isAprasymasSet = true;
+                } else {
+                    isAprasymasSet = false;
+                }
+                shouldEnableUpload();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        mValstnum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0){
+                    isValsNrSet = true;
+                } else {
+                    isValsNrSet = false;
+                }
+                shouldEnableUpload();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    private void shouldEnableUpload(){
+        if(isAprasymasSet && isValsNrSet && isVietasSet && isNuotraukaSet){
+            btnUpload.setEnabled(true);
+        } else {
+            btnUpload.setEnabled(false);
+        }
+    }
 
     @Override
     protected void onStart() {
@@ -254,6 +307,7 @@ public class pranesti extends AppCompatActivity {
         }
     }
 
+
     private void getPlaceAndSetPlaceText(LatLng latLng) {
 
 
@@ -262,14 +316,15 @@ public class pranesti extends AppCompatActivity {
             addressesList = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
             if (addressesList.size() == 0) {
-                Toast.makeText(pranesti.this, "Prašome patikslinti pasirinkta adresą", Toast.LENGTH_SHORT).show();
+                Toast.makeText(pranesti.this, "Prašome patikslinti pasirinkta adresą", Toast.LENGTH_LONG).show();
+                isVietasSet = false;
                 return;
             }
-
+            isVietasSet = true;
             mAddress = addressesList.get(0).getAddressLine(0);
 
-            tvPlace.setText(mAddress);
-
+            btnGetPlace.setText(mAddress);
+            shouldEnableUpload();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -307,7 +362,7 @@ public class pranesti extends AppCompatActivity {
                             returnable =  1;
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar("No locattion for now");
+                            showSnackbar("Jūsų vietovė nenustatyta");
                             returnable = 0;
                         }
                     }
@@ -514,7 +569,7 @@ public class pranesti extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(pranesti.this, "Klaida" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pranesti.this, "Klaida" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -526,7 +581,7 @@ public class pranesti extends AppCompatActivity {
                     });
         }
         else {
-            Toast.makeText(this.getApplicationContext(),"Užpildykite visą formą!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getApplicationContext(),"Užpildykite visą formą!",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -571,10 +626,13 @@ public class pranesti extends AppCompatActivity {
                 if(bitmap != null) {
                     imageView.setImageBitmap(bitmap);
                     filePath = getImageUri(this,bitmap);
-                    btnUpload.setVisibility(View.VISIBLE);
+                    isNuotraukaSet = true;
+/*                    btnUpload.setVisibility(View.VISIBLE);*/
                 }else{
-                    Toast.makeText(this.getApplicationContext(),"Klaida!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.getApplicationContext(),"Klaida!",Toast.LENGTH_LONG).show();
+                    isNuotraukaSet = false;
                 }
+                shouldEnableUpload();
             }
         }
     }
@@ -585,20 +643,6 @@ public class pranesti extends AppCompatActivity {
         inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
-    }
-
-    public String getRealPathFromURI(Uri uri) {
-        String path = "";
-        if (getContentResolver() != null) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null) {
-                cursor.moveToFirst();
-                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                path = cursor.getString(idx);
-                cursor.close();
-            }
-        }
-        return path;
     }
 
     @Override

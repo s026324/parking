@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_above="@id/upload"
-    android:orientation="vertical"
+
     android:id="@+id/contentMain">
 
     <ScrollView
@@ -43,6 +42,7 @@
                 android:paddingRight="10dp"
                 android:text="Situacijos aprašymas:"
                 android:textColor="@color/black"
+                android:fontFamily="@font/nunito_bold"
                 android:textSize="20dp" />
 
             <EditText
@@ -62,6 +62,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Transporto pr. valst. reg. numeris:"
+                android:fontFamily="@font/nunito_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
@@ -90,6 +91,7 @@
                 android:id="@+id/vietaText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Vieta:"
@@ -99,14 +101,16 @@
             <EditText
                 android:id="@+id/vietaID"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="68dp"
+                android:editable="false"
                 android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="Pažeidimo vieta"
                 android:inputType="textPersonName"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="Nustatykite vietą" />
+                android:paddingRight="10dp" />
 
-            <Button
+<!--            <Button
                 android:id="@+id/choose"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -115,16 +119,27 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/buttonshape"
-                android:text="Pridėti nuotrauką" />
+                android:text="Pridėti nuotrauką" />-->
+
+            <TextView
+                android:id="@+id/nuotrauka_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Nuotrauka:"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="wrap_content"
 
                 android:adjustViewBounds="false"
                 android:padding="10dp"
-                app:srcCompat="@android:drawable/btn_dialog" />
+                app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
 
         </LinearLayout>
