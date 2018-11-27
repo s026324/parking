@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class PazeidimaiActivity extends AppCompatActivity {
+public class PazeidimaiActivity extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,13 +44,6 @@ public class PazeidimaiActivity extends AppCompatActivity {
 
                     return false;
 
-                case R.id.paieska_nav:
-
-                    Intent l = new Intent(PazeidimaiActivity.this, SearchActivity.class);
-                    startActivity(l);
-
-
-                    return false;
                 case R.id.pranesti_nav:
 
                     Intent j = new Intent(PazeidimaiActivity.this, pranesti.class);
@@ -72,6 +67,7 @@ public class PazeidimaiActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Upload> itemsList;
 
+
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
 
@@ -81,16 +77,15 @@ public class PazeidimaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pazeidimai);
 
+
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
 
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-/*        View view = navigation.findViewById(R.id.pazeidimai_nav);
-        view.performClick();*/
-/*
-        navigation.setSelectedItemId(R.id.pazeidimai_nav);*/
 
         layoutManager = new LinearLayoutManager(PazeidimaiActivity.this, LinearLayoutManager.VERTICAL, false);
         layoutManager.setReverseLayout(true);
@@ -125,9 +120,35 @@ public class PazeidimaiActivity extends AppCompatActivity {
 
     }
 
+    private void filter(String text){
+
+
+        ArrayList<Upload> filteredList = new ArrayList<>();
+
+        for (Upload item : itemsList) {
+
+            text = text.toLowerCase();
+
+            if(item.getName().toLowerCase().contains(text) ||
+                    item.getValstnum().toLowerCase().contains(text) ||
+                    item.getAddress().toLowerCase().contains(text) ){
+                filteredList.add(item);
+            }
+
+        }
+
+        adapter.filterList(filteredList);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+
+
+        final MenuItem menuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+
+        searchView.setOnQueryTextListener(this);
         setTitle("Fiksuoti pažeidimai");
 /*        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);*/
@@ -174,5 +195,16 @@ public class PazeidimaiActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        filter(newText.toString());
+        return true;
+    }
 }
 

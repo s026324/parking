@@ -116,6 +116,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.btnPatvirtinti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("patvirtintiClick","patvirtinti");
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 final DatabaseReference reference = firebaseDatabase.getReference();
                 Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
@@ -147,9 +148,10 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.atmesti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("atmestiClick","atmesti");
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 final DatabaseReference reference = firebaseDatabase.getReference();
-                Query query = reference.child("uploads").orderByChild("valstnum").equalTo(mItemsList.get(position).getValstnum());
+                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

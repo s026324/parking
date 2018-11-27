@@ -7,11 +7,6 @@
         android:title="@string/title_home"
         android:enabled="true"/>
 
-    <item
-        android:id="@+id/paieska_nav"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/title_notifications"
-        android:enabled="true"/>
 
     <item
         android:id="@+id/pranesti_nav"

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -30,15 +31,19 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
     String address = "";
     Date date;
 
+
     public PazeidimasAdapter(Context mContext, ArrayList<Upload> mItemsList) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.mItemsList = mItemsList;
+
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        String imageUrl;
         View view = mInflater.inflate(R.layout.item_pazeidimas,parent,false);
         return new ViewHolder(view);
     }
@@ -50,11 +55,16 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
 
+
+
+
+
         String formattedDate = simpleDateFormat.format(date);
 
         Picasso.get()
                 .load(mItemsList.get(position)
                         .getImageUrl())
+                 .placeholder( R.drawable.progress_animation )
                 .fit()
                 .centerCrop()
                 .into(holder.ivFoto);
@@ -63,6 +73,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         holder.tvAprasymas.setText(mItemsList.get(position).getName());
         holder.tvAdresas.setText(address);
         holder.tvData.setText(formattedDate);
+
         holder.tvAdresas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,10 +88,22 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         holder.ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String url = mItemsList.get(position).getImageUrl();
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
+                Intent i = new Intent(mContext,FullScreenActivity.class);
+                //i.setData(Uri.parse(url));
+
+/*
+                Picasso.get().load(mItemsList.get(position)
+                        .getImageUrl())
+
+                        .into();
+*/
+
+
+                i.putExtra("ItemImage", url);
                 mContext.startActivity(i);
+/*                mContext.startActivity(i);*/
             }
         });
     }
@@ -90,11 +113,21 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         return mItemsList.size();
     }
 
+    public void filterList(ArrayList<Upload> filteredList) {
+
+        mItemsList = filteredList   ;
+        notifyDataSetChanged();
+
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
             public ImageView ivFoto;
             public Context context;
+            public PhotoView photoView;
+            public ImageView ImageBanner;
+
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -106,6 +139,9 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             tvData          = itemView.findViewById(R.id.tv_data);
             ivFoto          = itemView.findViewById(R.id.iv_foto);
             context         = itemView.getContext();
+            photoView = itemView.findViewById(R.id.your_photo_view);
+
+
         }
 
         @Override
@@ -113,4 +149,6 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
         }
     }
+
+
 }

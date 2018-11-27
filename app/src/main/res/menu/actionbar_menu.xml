@@ -5,9 +5,15 @@
     <item
         android:title="Apie"
         android:id="@+id/apie"
-        android:icon="@drawable/icon1"
+        android:icon="@drawable/ic_info_outline_black_24dp"
         app:showAsAction="always"
         />
+    <item
+        android:title="Paieska"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
     <item
         android:title="Apie aplikaciją"
