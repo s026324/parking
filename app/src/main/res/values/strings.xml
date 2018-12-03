@@ -22,6 +22,12 @@
     <string name="title_dashboard">Pranešti</string>
     <string name="title_notifications">Mano pranešimai</string>
 
+    <string name="til_empty_text_edit">Šis laukas turi būti užpildytas!</string>
+
+    <string name="yes_lt">Taip</string>
+    <string name="no_lt">Atšaukti</string>
+
+
     <string-array name="redaktorius_aktyvuoti">
 
         <item>Nepatvirtinti pranešimai</item>

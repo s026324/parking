@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.common.reflect.TypeToken;
@@ -34,6 +35,7 @@ public class ManoPranesimaiActivity extends AppCompatActivity {
 
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
+    private Button button;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -66,6 +68,9 @@ public class ManoPranesimaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mano_pranesimai);
 
+
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -95,11 +100,6 @@ public class ManoPranesimaiActivity extends AppCompatActivity {
             adapter = new PazeidimasAdapter(this, itemsList);
             recyclerView.setAdapter(adapter);
         }
-
-
-
-
-
 
 
     }

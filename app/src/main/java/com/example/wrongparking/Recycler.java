@@ -1,9 +1,12 @@
 package com.example.wrongparking;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -116,63 +120,135 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.btnPatvirtinti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("patvirtintiClick","patvirtinti");
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                final DatabaseReference reference = firebaseDatabase.getReference();
-                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
-                        String path = "/" + dataSnapshot.getKey() + "/" + key;
-                        HashMap<String, Object> result = new HashMap<>();
-                        result.put("patvirtintas", true);
-                        result.put("perziuretas",true);
-                        reference.child(path).updateChildren(result);
 
-                        mItemsList.remove(position);
-                        Redaktorius.adapter.notifyItemRemoved(position);
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Light_Dialog);
+                } else {
+                    builder = new AlertDialog.Builder(mContext);
+                }
 
-                    }
+                final EditText acceptMessage = new EditText(mContext);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
-                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
-                    }
-                });
+
+/*
+                final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                );
+
+                input.setLayoutParams(lp);*/
+/*                input.setPadding(100,0,100,0);
+                lp.setMargins(100, 20, 150, 60);*/
+
+
+
+
+                builder.setTitle("Pranešimo patvirtinimas")
+                        .setMessage("Patvirtinantis pranešimas:")
+                        .setView(acceptMessage)
+                        .setPositiveButton("Patvirtinti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Log.e("patvirtintiClick","patvirtinti");
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                final DatabaseReference reference = firebaseDatabase.getReference();
+                                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                                        HashMap<String, Object> result = new HashMap<>();
+                                        result.put("patvirtintas", true);
+                                        result.put("perziuretas",true);
+                                        result.put("answer", acceptMessage.getText().toString());
+
+                                        reference.child(path).updateChildren(result);
+
+                                        mItemsList.remove(position);
+                                        Redaktorius.adapter.notifyItemRemoved(position);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                                    }
+                                });
+
+
+                            }
+                        })
+                        .setNegativeButton("Atšaukti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
             }
         });
 
         holder.atmesti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("atmestiClick","atmesti");
-                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                final DatabaseReference reference = firebaseDatabase.getReference();
-                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
-                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
-                        String path = "/" + dataSnapshot.getKey() + "/" + key;
-                        HashMap<String, Object> result = new HashMap<>();
-                        result.put("patvirtintas", false);
-                        result.put("perziuretas",true);
-                        reference.child(path).updateChildren(result);
 
-                        mItemsList.remove(position);
-                        Redaktorius.adapter.notifyItemRemoved(position);
-                    }
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Light_Dialog);
+                } else {
+                    builder = new AlertDialog.Builder(mContext);
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
-                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
-                    }
-                });
+                final EditText deleteMessage = new EditText(mContext);
+
+                builder.setTitle("Atmesti pranešimą")
+                        .setMessage("Pranešimo atmetino priežastis:")
+                        .setView(deleteMessage)
+                        .setPositiveButton("Atmesti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Log.e("atmestiClick","atmesti");
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                final DatabaseReference reference = firebaseDatabase.getReference();
+                                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                                        HashMap<String, Object> result = new HashMap<>();
+                                        result.put("patvirtintas", false);
+                                        result.put("perziuretas",true);
+                                        result.put("answer", deleteMessage.getText().toString());
+                                        reference.child(path).updateChildren(result);
+
+                                        mItemsList.remove(position);
+                                        Redaktorius.adapter.notifyItemRemoved(position);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                                    }
+                                });
+
+                            }
+                        })
+                        .setNegativeButton("Atšaukti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
         });
 

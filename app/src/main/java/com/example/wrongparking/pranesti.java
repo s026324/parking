@@ -1,5 +1,4 @@
 package com.example.wrongparking;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -17,6 +16,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -77,12 +77,13 @@ public class pranesti extends AppCompatActivity {
     private ImageView btnChoose;
     private Button btnUpload;
     private ImageView imageView;
-    private EditText mEditTextFileName, btnGetPlace;
-    private EditText mValstnum;
+    private EditText mEditTextFileName, btnGetPlace, mValstnum;
+
     public Date mTime;
     Date mDate = Calendar.getInstance().getTime();
     private boolean mPatvirtintas;
     private boolean mPerziuretas;
+    String mAnswer = "";
 
     String mAddress = "";
 
@@ -177,7 +178,9 @@ public class pranesti extends AppCompatActivity {
         }
 
 
-        //  System.out.println(mDate);
+
+
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -251,17 +254,31 @@ public class pranesti extends AppCompatActivity {
 
     }
 
+/*    TextInputLayout til = (TextInputLayout) findViewById(R.id.text_input_layout);
+
+        if(til == null){
+        til.setError("You need to enter a name");
+    }else {
+        til.setError(null);
+    }*/
+
     private void setOnTextChangeListeners(){
+
         mEditTextFileName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                TextInputLayout tilAprasymas = (TextInputLayout) findViewById(R.id.til_aprasymas);
+
                 if(s.length() != 0){
+                    tilAprasymas.setError(null);
                     isAprasymasSet = true;
                 } else {
                     isAprasymasSet = false;
+                    tilAprasymas.setError(getString(R.string.til_empty_text_edit));
                 }
                 shouldEnableUpload();
             }
@@ -275,9 +292,14 @@ public class pranesti extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                TextInputLayout tilValstnum = (TextInputLayout) findViewById(R.id.til_valstnum);
+
                 if(s.length() != 0){
+                    tilValstnum.setError(null);
                     isValsNrSet = true;
                 } else {
+                    tilValstnum.setError(getString(R.string.til_empty_text_edit));
                     isValsNrSet = false;
                 }
                 shouldEnableUpload();
@@ -537,7 +559,7 @@ public class pranesti extends AppCompatActivity {
 
 
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
-                                            timeStamp, mPatvirtintas, mPerziuretas, mAddress);
+                                            timeStamp, mPatvirtintas, mPerziuretas, mAddress, mAnswer);
                                     String uploadId = mDatabase.push().getKey();
                                     mDatabase.child(uploadId).setValue(upload);
 

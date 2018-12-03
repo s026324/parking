@@ -55,10 +55,6 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
 
-
-
-
-
         String formattedDate = simpleDateFormat.format(date);
 
         Picasso.get()
@@ -140,10 +136,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             ivFoto          = itemView.findViewById(R.id.iv_foto);
             context         = itemView.getContext();
             photoView = itemView.findViewById(R.id.your_photo_view);
-
-
         }
-
         @Override
         public void onClick(View view) {
 

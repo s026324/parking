@@ -24,11 +24,11 @@
         <activity
             android:name=".PazeidimaiActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
+<!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".pranesti"
@@ -41,11 +41,16 @@
             android:name=".Redaktorius"
             android:theme="@style/AppTheme" />
 
-        <!--
             <activity
             android:name=".TestActivity"
-            android:label="@string/title_activity_test"></activity>
-        -->
+            android:label="@string/title_activity_test">
+
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+            </activity>
         <activity
             android:name=".ManoPranesimaiActivity"
             android:theme="@style/AppTheme" />
