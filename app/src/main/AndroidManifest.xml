@@ -21,19 +21,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-        <activity
+<!--        <activity
             android:name=".PazeidimaiActivity"
             android:theme="@style/AppTheme">
-<!--            <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
+            </intent-filter>
+        </activity>-->
         <activity
             android:name=".pranesti"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="adjustPan"/>
+<!--            android:windowSoftInputMode="stateHidden|adjustResize"-->
         <activity
             android:name=".RedLogin"
             android:theme="@style/AppTheme" />
@@ -44,7 +45,6 @@
             <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test">
-
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
 

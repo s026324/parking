@@ -11,20 +11,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class TestActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private Button mButton;
+    private TextView Score;
     private boolean firstTimeUsed = false;
     private String firstTimeUsedKey="FIRST_TIME";
 
     private String sharedPreferencesKey = "MY_PREF";
     private String buttonClickedKey = "BUTTON_CLICKED";
     private SharedPreferences mPrefs;
+    private SharedPreferences mClickPrefs; // paspaudimai
     private long savedDate=0;
+    final Integer maxclicks = 5;
+    Integer currentnumber = 0;
+    int clicks = 0;
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -66,22 +75,85 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
         mButton = (Button) findViewById(R.id.buttonTest);
+        Score = (TextView) findViewById(R.id.Score);
+
         mPrefs = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE);
         savedDate = mPrefs.getLong(buttonClickedKey,0);
+        //if (getDate == current day) firstTimeUser false ? true
         firstTimeUsed = mPrefs.getBoolean(firstTimeUsedKey,true);//default is true if no value is saved
         checkPrefs();
 
+
+/*
+        mClickPrefs = getSharedPreferences("clicks", Context.MODE_PRIVATE); // paspaudimai
+*/
+        final SharedPreferences myBambo = this.getSharedPreferences("clicks", Context.MODE_PRIVATE);
+
+        clicks = myBambo.getInt("score", 0);
+
+        Score.setText("bambo:" +clicks);
+/*        SharedPreferences prefs = this.getSharedPreferences("myPrefsKey", this.MODE_PRIVATE);*/
+
+
         mButton.setOnClickListener(new View.OnClickListener(){
+
 
             @Override
             public void onClick(View v) {
+                if(clicks <= 5) {
+                    clicks += 1;
 
-                saveClickedTime();
+                    SharedPreferences myBambo = getSharedPreferences("clicks", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = myBambo.edit();
+                    editor.putInt("score", clicks);
+                    editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(3));
+                    editor.commit();
+
+                    Score.setText("Score: " + clicks);
+                } else{
+                    mButton.setEnabled(false);
+                }
+                if (myBambo.getLong("ExpiredDate", -1) < System.currentTimeMillis()) {
+                    SharedPreferences.Editor editor = myBambo.edit();
+                    editor.clear();
+                    editor.apply();
+                }
+
+
+
+/*
+                putValueInSharedPrefs(++clicks);
+
+                clicks++;
+                if(clicks==0) {
+                    mButton.setEnabled(true);
+                }else if(clicks >=2){
+                    mButton.setEnabled(false);
+                }
+                SharedPreferences.Editor editor = mClickPrefs.edit();
+                editor.putInt("clicks", clicks);
+*/
+/*                                editor.putString("date",date.toString());*//*
+
+                editor.apply();
+*/
+
+/*
+                    saveClickedTime();*/
             }
+
+            private void putValueInSharedPrefs(int clickTimes) {
+                SharedPreferences.Editor editor = mClickPrefs.edit();
+/*                editor = sharedPreferences.edit();*/
+                editor.putInt("clicks", clickTimes);
+                editor.apply();
+                editor.commit();
+
+                Toast.makeText(TestActivity.this, "Example Button is clicked " +clickTimes+ "time(s)", Toast.LENGTH_SHORT).show();
+
+            }
+
         });
-
-
-
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -98,10 +170,22 @@ public class TestActivity extends AppCompatActivity {
                 //to 1, to be sure that the date differs only from day,month and year
 
                 Calendar currentCal = Calendar.getInstance();
+
+                Date dateCurrent = currentCal.getTime();
+
+
+/*
+                currentCal.get(Calendar.MINUTE);
+                currentCal.get(Calendar.HOUR);
+                currentCal.get(Calendar.SECOND);
+                currentCal.get(Calendar.MILLISECOND);
+*/
+
                 currentCal.set(Calendar.MINUTE,1);
                 currentCal.set(Calendar.HOUR,1);
                 currentCal.set(Calendar.SECOND,1);
                 currentCal.set(Calendar.MILLISECOND,1);
+
 
                 Calendar savedCal = Calendar.getInstance();
                 savedCal.setTimeInMillis(savedDate); //set the time in millis from saved in sharedPrefs
@@ -109,22 +193,29 @@ public class TestActivity extends AppCompatActivity {
                 savedCal.set(Calendar.HOUR,1);
                 savedCal.set(Calendar.SECOND,1);
                 savedCal.set(Calendar.MILLISECOND,1);
+/*                savedCal.get(Calendar.MINUTE);
+                savedCal.get(Calendar.HOUR);
+                savedCal.get(Calendar.SECOND);
+                savedCal.get(Calendar.MILLISECOND);*/
 
                 if(currentCal.getTime().after(savedCal.getTime()))
                 {
-                    mButton.setVisibility(View.VISIBLE);
+                /*    mButton.setEnabled(true);*/
+/*                    mButton.setVisibility(View.VISIBLE);*/
                 }
                 else if(currentCal.getTime().equals(savedCal.getTime())){
+/*                    mButton.setEnabled(false);*/
 
-                    mButton.setVisibility(View.GONE);
+/*
+                    mButton.setVisibility(View.GONE);*/
                 }
 
             }
         }else{
 
             //just set the button visible if app is used the first time
-
-            mButton.setVisibility(View.VISIBLE);
+           /* mButton.setEnabled(true);*/
+/*            mButton.setVisibility(View.VISIBLE);*/
 
         }
 
@@ -140,8 +231,13 @@ public class TestActivity extends AppCompatActivity {
         mEditor.commit();
 
         //hide the button after clicked
-        mButton.setVisibility(View.GONE);
+/*        if(currentnumber == maxclicks){
+            mButton.setEnabled(false);
+        }else {
+            currentnumber = currentnumber + 1;
+        }*/
 
+/*        mButton.setVisibility(View.GONE);*/
     }
 
 }

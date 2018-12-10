@@ -165,6 +165,8 @@ public class pranesti extends AppCompatActivity {
         gson = new Gson();
         pranesimaiList = new ArrayList<>();
 
+
+
         pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI, "");
         if (pazeidimaiJson.equals("")) {
             // Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
@@ -180,8 +182,6 @@ public class pranesti extends AppCompatActivity {
 
 
 
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -191,9 +191,7 @@ public class pranesti extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mTime = new Date();
-        // mStorageRef = FirebaseStorage.getInstance().getReference();
-//        storage = FirebaseStorage.getInstance();
-//        storageReference = storage.getReference();
+
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS);
@@ -204,7 +202,9 @@ public class pranesti extends AppCompatActivity {
         btnChoose = (ImageView) findViewById(R.id.imageView2);
         btnUpload = (Button) findViewById(R.id.upload);
 
-        btnUpload.setEnabled(false);
+
+
+        btnUpload.setActivated(false);
 
         /*        btnUpload.setVisibility(View.GONE);*/
         btnGetPlace = findViewById(R.id.vietaID);
@@ -227,7 +227,13 @@ public class pranesti extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upload();
+                if(!btnUpload.isActivated()){
+/*                    btnUpload.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));*/
+                    Toast.makeText(pranesti.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
+                    return;
+                }else {
+                    upload();
+                }
             }
 
         });
@@ -312,9 +318,9 @@ public class pranesti extends AppCompatActivity {
 
     private void shouldEnableUpload(){
         if(isAprasymasSet && isValsNrSet && isVietasSet && isNuotraukaSet){
-            btnUpload.setEnabled(true);
+            btnUpload.setActivated(true);
         } else {
-            btnUpload.setEnabled(false);
+           btnUpload.setActivated(false);
         }
     }
 
@@ -343,6 +349,7 @@ public class pranesti extends AppCompatActivity {
                 return;
             }
             isVietasSet = true;
+/*            mAddress = addressesList.get(0).getSubAdminArea();*/
             mAddress = addressesList.get(0).getAddressLine(0);
 
             btnGetPlace.setText(mAddress);
@@ -557,7 +564,6 @@ public class pranesti extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
 
-
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
                                             timeStamp, mPatvirtintas, mPerziuretas, mAddress, mAnswer);
                                     String uploadId = mDatabase.push().getKey();
@@ -603,7 +609,8 @@ public class pranesti extends AppCompatActivity {
                     });
         }
         else {
-            Toast.makeText(this.getApplicationContext(),"Užpildykite visą formą!",Toast.LENGTH_LONG).show();
+            shouldEnableUpload();
+           /* Toast.makeText(this.getApplicationContext(),"Užpildykite visą formą!",Toast.LENGTH_LONG).show();*/
         }
 
     }
@@ -649,12 +656,12 @@ public class pranesti extends AppCompatActivity {
                     imageView.setImageBitmap(bitmap);
                     filePath = getImageUri(this,bitmap);
                     isNuotraukaSet = true;
+                    shouldEnableUpload();
 /*                    btnUpload.setVisibility(View.VISIBLE);*/
                 }else{
                     Toast.makeText(this.getApplicationContext(),"Klaida!",Toast.LENGTH_LONG).show();
                     isNuotraukaSet = false;
                 }
-                shouldEnableUpload();
             }
         }
     }

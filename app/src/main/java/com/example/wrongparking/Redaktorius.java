@@ -35,11 +35,37 @@ public class Redaktorius extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_redaktorius);
 
+
+        /*reference = FirebaseDatabase.getInstance().getReference().child("uploads");
+
+        reference.child("address").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<String> adresas = new ArrayList<String>();
+                for (DataSnapshot adresSnapshot: dataSnapshot.getChildren()){
+                    String adresName = adresSnapshot.child("address").getValue(String.class);
+                    adresas.add(adresName);
+                }
+                Spinner adresasSpinner = (Spinner) findViewById(R.id.spinnerAdresas);
+                ArrayAdapter<String> adresasAdapter = new ArrayAdapter<String>(Redaktorius.this, R.layout.support_simple_spinner_dropdown_item, adresas);
+                adresasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                adresasSpinner.setAdapter(adresasAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Redaktorius.this,
         android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.redaktorius_aktyvuoti));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
+
+
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -135,7 +161,6 @@ public class Redaktorius extends AppCompatActivity {
         setTitle("Redaktoriaus pultas");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         return true;
     }
 
