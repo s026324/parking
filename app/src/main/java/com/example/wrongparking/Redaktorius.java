@@ -3,9 +3,11 @@ package com.example.wrongparking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Redaktorius extends AppCompatActivity {
+public class Redaktorius extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener {
 
     DatabaseReference reference;
     RecyclerView recyclerView;
@@ -154,14 +156,43 @@ public class Redaktorius extends AppCompatActivity {
         });
 
     }
+    private void filter(String text){
+
+
+        ArrayList<Upload> filteredList = new ArrayList<>();
+
+        for (Upload item : itemsList) {
+
+            text = text.toLowerCase();
+
+            if(item.getName().toLowerCase().contains(text) ||
+                    item.getValstnum().toLowerCase().contains(text) ||
+                    item.getAddress().toLowerCase().contains(text) ){
+                filteredList.add(item);
+            }
+
+        }
+
+        adapter.filterList(filteredList);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu_redaktoriui, menu);
+
+        final MenuItem menuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+
+        searchView.setOnQueryTextListener(this);
+        setTitle("Redaktoriaus pultas");
+/*        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);*/
+        return true;
+/*        getMenuInflater().inflate(R.menu.actionbar_menu_redaktoriui, menu);
         setTitle("Redaktoriaus pultas");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        return true;
+        return true;*/
     }
 
     @Override
@@ -188,6 +219,17 @@ public class Redaktorius extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        filter(newText.toString());
+        return false;
     }
 
 

@@ -82,6 +82,7 @@ public class TestActivity extends AppCompatActivity {
         //if (getDate == current day) firstTimeUser false ? true
         firstTimeUsed = mPrefs.getBoolean(firstTimeUsedKey,true);//default is true if no value is saved
         checkPrefs();
+        checkTime();
 
 
 /*
@@ -100,26 +101,28 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(clicks <= 5) {
-                    clicks += 1;
+                if(clicks >= 5) {
+                    mButton.setEnabled(false);
 
+                    Toast.makeText(TestActivity.this, "nesvaik", Toast.LENGTH_SHORT).show();
+
+                }else{
+
+                    clicks += 1;
                     SharedPreferences myBambo = getSharedPreferences("clicks", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = myBambo.edit();
                     editor.putInt("score", clicks);
-                    editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(3));
-                    editor.commit();
+                    editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(10));
+                    editor.apply();
 
                     Score.setText("Score: " + clicks);
-                } else{
-                    mButton.setEnabled(false);
+
                 }
-                if (myBambo.getLong("ExpiredDate", -1) < System.currentTimeMillis()) {
+/*                if (myBambo.getLong("ExpiredDate", -1) < System.currentTimeMillis()) {
                     SharedPreferences.Editor editor = myBambo.edit();
                     editor.clear();
                     editor.apply();
-                }
-
-
+                }*/
 
 /*
                 putValueInSharedPrefs(++clicks);
@@ -158,6 +161,16 @@ public class TestActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private void checkTime() {
+
+        SharedPreferences myBambo = getSharedPreferences("clicks", Context.MODE_PRIVATE);
+                        if (myBambo.getLong("ExpiredDate", -1) < System.currentTimeMillis()) {
+                    SharedPreferences.Editor editor = myBambo.edit();
+                    editor.clear();
+                    editor.apply();
+                }
     }
 
     private void checkPrefs(){

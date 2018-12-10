@@ -110,10 +110,16 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         holder.ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String url = mItemsList.get(position).getImageUrl();
+                Intent i = new Intent(mContext,FullScreenActivity.class);
+                i.putExtra("ItemImage", url);
+                mContext.startActivity(i);
+
+/*                String url = mItemsList.get(position).getImageUrl();
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
-                mContext.startActivity(i);
+                mContext.startActivity(i);*/
             }
         });
 
@@ -257,6 +263,13 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     @Override
     public int getItemCount() {
         return mItemsList.size();
+    }
+
+    public void filterList(ArrayList<Upload> filteredList) {
+
+        mItemsList = filteredList   ;
+        notifyDataSetChanged();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

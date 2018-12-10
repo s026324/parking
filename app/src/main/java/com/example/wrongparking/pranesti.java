@@ -1,8 +1,10 @@
 package com.example.wrongparking;
+
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
@@ -61,6 +63,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.prefs.Prefs;
 
@@ -131,6 +134,9 @@ public class pranesti extends AppCompatActivity {
     Camera camera;
 
     int returnable = 0;
+    int clicks = 0;
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -179,6 +185,8 @@ public class pranesti extends AppCompatActivity {
             Log.e("pranesimaiList", "json: ->>>>> " + pazeidimaiJson);
         }
 
+        checkTime();
+
 
 
 
@@ -224,14 +232,30 @@ public class pranesti extends AppCompatActivity {
                 chooseImage();
             }
         });
+
+        final SharedPreferences ClickLimit = this.getSharedPreferences("clicks", Context.MODE_PRIVATE);
+
+        clicks = ClickLimit.getInt("score", 0);
         btnUpload.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if(!btnUpload.isActivated()){
 /*                    btnUpload.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));*/
                     Toast.makeText(pranesti.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
                     return;
-                }else {
+                }else if(clicks >= 5) {
+                    Toast.makeText(pranesti.this, "Į dieną galime pranešti apie 5 pažeidimus!", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    clicks += 1;
+                    SharedPreferences ClickLimit = getSharedPreferences("clicks", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = ClickLimit.edit();
+                    editor.putInt("score", clicks);
+                    editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12));
+                    editor.apply();
+
                     upload();
                 }
             }
@@ -257,6 +281,17 @@ public class pranesti extends AppCompatActivity {
         });
 
         setOnTextChangeListeners();
+
+    }
+
+    private void checkTime() {
+
+        SharedPreferences ClickLimit = getSharedPreferences("clicks", Context.MODE_PRIVATE);
+        if (ClickLimit.getLong("ExpiredDate", -1) < System.currentTimeMillis()) {
+            SharedPreferences.Editor editor = ClickLimit.edit();
+            editor.clear();
+            editor.apply();
+        }
 
     }
 
@@ -557,7 +592,7 @@ public class pranesti extends AppCompatActivity {
                             progressDialog.dismiss();
                             Toast.makeText(pranesti.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
 
-                            Intent i = new Intent(pranesti.this, ManoPranesimaiActivity.class);
+                            Intent i = new Intent(pranesti.this, PazeidimaiActivity.class);
                             startActivity(i);
 
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

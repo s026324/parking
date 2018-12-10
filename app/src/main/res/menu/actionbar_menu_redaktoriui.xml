@@ -12,6 +12,12 @@
         android:title="Atsijungti"
         android:id="@+id/logout"
         app:showAsAction="never"/>
+    <item
+        android:title="Paieska"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
 
 

@@ -21,7 +21,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_api_key" />
 
-<!--        <activity
+        <activity
             android:name=".PazeidimaiActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,7 +29,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
         <activity
             android:name=".pranesti"
             android:theme="@style/AppTheme"
@@ -41,8 +41,7 @@
         <activity
             android:name=".Redaktorius"
             android:theme="@style/AppTheme" />
-
-            <activity
+<!--            <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test">
                 <intent-filter>
@@ -50,7 +49,7 @@
 
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
-            </activity>
+            </activity>-->
         <activity
             android:name=".ManoPranesimaiActivity"
             android:theme="@style/AppTheme" />

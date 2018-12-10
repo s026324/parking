@@ -68,9 +68,6 @@ public class ManoPranesimaiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mano_pranesimai);
 
-
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -100,8 +97,6 @@ public class ManoPranesimaiActivity extends AppCompatActivity {
             adapter = new PazeidimasAdapter(this, itemsList);
             recyclerView.setAdapter(adapter);
         }
-
-
     }
 
     @Override

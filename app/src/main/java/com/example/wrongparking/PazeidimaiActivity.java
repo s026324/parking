@@ -175,7 +175,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                     //set title
                     .setTitle("Fiksuoti pažeidimai")
                     //set message
-                    .setMessage("cia bus surasyta informacijaaaaaaaaaaaa")
+                    .setMessage("Šiame lange yra matomi visi patvirtinti netaisiklingai priparkuotu transporto priemonių pranešimai")
                     //set positive button
                     .setPositiveButton("Supratau", new DialogInterface.OnClickListener() {
                         @Override
@@ -186,6 +186,9 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                     })
                     //set negative button
                     .show();
+        }
+        if (id == R.id.item1){
+            Toast.makeText(this, "apie aplikacija", Toast.LENGTH_LONG).show();
         }
         if (id == R.id.item2) {
             Intent i = new Intent(PazeidimaiActivity.this, RedLogin.class);
