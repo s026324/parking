@@ -79,9 +79,6 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pazeidimai);
 
-
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
 
@@ -118,7 +115,6 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                 recyclerView.setAdapter(adapter);
             }
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(PazeidimaiActivity.this, "Kažkas blogai...", Toast.LENGTH_SHORT).show();
@@ -129,7 +125,6 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
     }
 
     private void filter(String text){
-
 
         ArrayList<Upload> filteredList = new ArrayList<>();
 
@@ -142,9 +137,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                     item.getAddress().toLowerCase().contains(text) ){
                 filteredList.add(item);
             }
-
         }
-
         adapter.filterList(filteredList);
     }
 
@@ -152,22 +145,13 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
 
-
         final MenuItem menuItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
 
         searchView.setOnQueryTextListener(this);
         setTitle("Fiksuoti pažeidimai");
-/*        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);*/
         return true;
     }
-
-/*    @Override
-    public boolean onSupportNavigateUp(){
-        finish();
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -221,7 +205,6 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onQueryTextSubmit(String query) {
