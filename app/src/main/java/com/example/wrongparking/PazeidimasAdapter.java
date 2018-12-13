@@ -102,6 +102,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 /*                mContext.startActivity(i);*/
             }
         });
+
     }
 
     @Override

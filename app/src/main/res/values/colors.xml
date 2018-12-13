@@ -14,4 +14,5 @@
     <color name="red">#B30000</color>
     <color name="green">#00e125</color>
     <color name="primary_dark_material_light">#242be7</color>
+    <color name="trans">#00000000</color>
 </resources>

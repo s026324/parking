@@ -32,7 +32,19 @@
 
         <item>Nepatvirtinti pranešimai</item>
         <item>Patvirtinti pranešimai</item>
+        <item>Atmesti pranešimai</item>
 
     </string-array>
+
+    <string name="alertPazeidimai_text">
+        Šiame lange yra matomi visi patvirtinti netaisiklingai priparkuotu transporto priemonių pranešimai.  \nJeigu norite pranešti apie pažeidimą, spauskite žėmiau esanti mygtuką - <b>Pranešti</b>
+    </string>
+    <string name="alertManoPazeidimai_text">
+        Šiame lange yra rodomi visi Jūsų pranešimai.
+    </string>
+    <string name="alertPranesti_text">
+        Šiame lange yra matoma pranešimo apie netaisyklingai priparkuota transporto priemonę formą. \nJeigu matote parkavimo pažeidimą ir norite pranešti apie tai, turite užpildyti pilnai šia formą ir nufotografuoti pražeidimą taip, kad būtų aiškiai matomas pažeidimas ir transporto priemonės valstybinis registracijos numeris.
+    </string>
+
 
 </resources>

@@ -3,8 +3,11 @@ package com.example.wrongparking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,7 +75,12 @@ public class RedLogin extends AppCompatActivity {
         mEmail_Edittext = (EditText) findViewById(R.id.mEmail);
         mPass_Edittext = (EditText) findViewById(R.id.mPass);
 
+
         mLoginBtn = (Button) findViewById(R.id.mbutton);
+
+        setOnTextChangeListeners();
+
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -95,6 +103,57 @@ public class RedLogin extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setOnTextChangeListeners() {
+
+        mEmail_Edittext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                TextInputLayout tilEmail = (TextInputLayout) findViewById(R.id.til_email);
+
+                if(s.length() != 0){
+                    tilEmail.setError(null);
+                } else {
+                    tilEmail.setError(getString(R.string.til_empty_text_edit));
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        mPass_Edittext.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                TextInputLayout tilPass = (TextInputLayout) findViewById(R.id.til_pass);
+
+                if(s.length() != 0){
+                    tilPass.setError(null);
+                } else {
+                    tilPass.setError(getString(R.string.til_empty_text_edit));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     @Override

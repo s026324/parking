@@ -59,20 +59,29 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
 
         switch (type){
             case Constants.TYPE_PATVIRTINTI:
+
                 holder.btnPatvirtinti.setVisibility(View.GONE);
+                holder.atmesti.setVisibility(View.GONE);
+                holder.atmestiIsPatvirtintu.setVisibility(View.VISIBLE);
+
 
                 break;
             case Constants.TYPE_NEPATVIRTINIT:
 
                 break;
             case Constants.TYPE_ATMESTI:
+
+                holder.btnPatvirtinti.setVisibility(View.GONE);
+                holder.atmesti.setVisibility(View.GONE);
+                holder.patvirtintiIsAtmestu.setVisibility(View.VISIBLE);
+
                 break;
             case Constants.TYPE_VISI:
                 break;
@@ -88,6 +97,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         Picasso.get()
                 .load(mItemsList.get(position)
                         .getImageUrl())
+                .placeholder(R.drawable.progress_animation)
                 .fit()
                 .centerCrop()
                 .into(holder.ivFoto);
@@ -116,10 +126,6 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 i.putExtra("ItemImage", url);
                 mContext.startActivity(i);
 
-/*                String url = mItemsList.get(position).getImageUrl();
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                mContext.startActivity(i);*/
             }
         });
 
@@ -258,6 +264,125 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
             }
         });
 
+
+        holder.patvirtintiIsAtmestu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Light_Dialog);
+                } else {
+                    builder = new AlertDialog.Builder(mContext);
+                }
+
+                final EditText acceptMessage = new EditText(mContext);
+
+                builder.setTitle("Pranešimo patvirtinimas")
+                        .setMessage("Patvirtinantis pranešimas:")
+                        .setView(acceptMessage)
+                        .setPositiveButton("Patvirtinti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Log.e("patvirtintiClick","patvirtinti");
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                final DatabaseReference reference = firebaseDatabase.getReference();
+                                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                                        HashMap<String, Object> result = new HashMap<>();
+                                        result.put("patvirtintas", true);
+                                        result.put("perziuretas",true);
+                                        result.put("answer", acceptMessage.getText().toString());
+
+                                        reference.child(path).updateChildren(result);
+
+                                        mItemsList.remove(position);
+                                        Redaktorius.adapter.notifyItemRemoved(position);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Atšaukti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+
+
+        holder.atmestiIsPatvirtintu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Light_Dialog);
+                } else {
+                    builder = new AlertDialog.Builder(mContext);
+                }
+
+                final EditText deleteMessage = new EditText(mContext);
+
+                builder.setTitle("Atmesti pranešimą")
+                        .setMessage("Pranešimo atmetino priežastis:")
+                        .setView(deleteMessage)
+                        .setPositiveButton("Atmesti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Log.e("atmestiClick","atmesti");
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                final DatabaseReference reference = firebaseDatabase.getReference();
+                                Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
+                                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren().iterator().next();
+                                        String key = nodeDataSnapshot.getKey(); // this key is `K1NRz9l5PU_0CFDtgXz`
+                                        String path = "/" + dataSnapshot.getKey() + "/" + key;
+                                        HashMap<String, Object> result = new HashMap<>();
+                                        result.put("patvirtintas", false);
+                                        result.put("perziuretas",false);
+                                        result.put("answer", deleteMessage.getText().toString());
+                                        reference.child(path).updateChildren(result);
+
+                                        mItemsList.remove(position);
+                                        Redaktorius.adapter.notifyItemRemoved(position);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Logger.error(TAG, ">>> Error:" + "find onCancelled:" + databaseError);
+                                        Log.e(">>> ErrorDatabse:","find onCancelled:" + databaseError);
+                                    }
+                                });
+
+                            }
+                        })
+                        .setNegativeButton("Atšaukti", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
+
     }
 
     @Override
@@ -277,7 +402,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
         public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
         public ImageView ivFoto;
         public Context context;
-        public Button btnPatvirtinti, atmesti;
+        public Button btnPatvirtinti, atmesti, atmestiIsPatvirtintu, patvirtintiIsAtmestu;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -290,6 +415,8 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
             ivFoto          = itemView.findViewById(R.id.iv_foto);
             btnPatvirtinti = (Button) itemView.findViewById(R.id.patvirtinti);
             atmesti = (Button) itemView.findViewById(R.id.atmesti);
+            atmestiIsPatvirtintu = (Button) itemView.findViewById(R.id.atmesti2);
+            patvirtintiIsAtmestu = (Button) itemView.findViewById(R.id.patvirtinti2);
             context         = itemView.getContext();
         }
 

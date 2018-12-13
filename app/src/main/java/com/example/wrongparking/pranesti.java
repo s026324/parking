@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,6 +22,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -220,6 +223,7 @@ public class pranesti extends AppCompatActivity {
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
 
 
+
         mValstnum = findViewById(R.id.valstnum);
 
 
@@ -325,7 +329,9 @@ public class pranesti extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+
+            }
         });
         mValstnum.addTextChangedListener(new TextWatcher() {
             @Override
@@ -711,7 +717,7 @@ public class pranesti extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        getMenuInflater().inflate(R.menu.actionbar_menu_pranesti, menu);
         setTitle("Pranešimo forma");
 
         return true;
@@ -723,6 +729,48 @@ public class pranesti extends AppCompatActivity {
 
         if (id == R.id.item1) {
             Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+        }
+        if (id == R.id.apie) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(pranesti.this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_pranesti, null);
+            Button ok = (Button) mView.findViewById(R.id.ok);
+
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            /*                Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();*/
+
+/*            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    //set icon
+                    .setIcon(android.R.drawable.ic_menu_info_details)
+                    //set title
+                    .setTitle("Pranešimo forma")
+                    //set message
+                    .setMessage("Šiame lange yra matoma pranešimo apie netaisyklingai priparkuota transporto priemonę formą. Jeigu matote parkavimo pažeidimą ir norite pranešti apie tai, turite užpildyti pilmai šia formą ir nufotografuoti pražeidimą taip, kad būtų aiškiai matomas pažeidimas ir transporto priemonės valstybiniai registracijos numeriai.")
+                    //set positive button
+                    .setPositiveButton("Supratau", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //set what would happen when positive button is clicked
+
+                        }
+                    })
+                    //set negative button
+                    .show();*/
+        }
+        if (id == R.id.item2) {
+            Intent i = new Intent(pranesti.this, RedLogin.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

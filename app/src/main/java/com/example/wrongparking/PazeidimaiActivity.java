@@ -1,18 +1,22 @@
 package com.example.wrongparking;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -39,9 +43,6 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                     Intent i = new Intent(PazeidimaiActivity.this, PazeidimaiActivity.class);
                     startActivity(i);
 */
-
-
-
                     return false;
 
                 case R.id.pranesti_nav:
@@ -70,6 +71,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
 
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
+    ProgressDialog progress;
 
 
     @Override
@@ -94,10 +96,16 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         recyclerView = (RecyclerView) findViewById(R.id.rc_pazeidimai);
         recyclerView.setLayoutManager(layoutManager);
 
+
+                progress = ProgressDialog.show(this, null,
+                "Kraunama", true);
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progress.dismiss();
+
                 itemsList = new ArrayList<Upload>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Upload singleItem = dataSnapshot1.getValue(Upload.class);
@@ -167,9 +175,26 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         int id = item.getItemId();
 
         if (id == R.id.apie) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(PazeidimaiActivity.this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_pazeidimai, null);
+            Button ok = (Button) mView.findViewById(R.id.ok);
+
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
 /*                Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();*/
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
+/*            AlertDialog alertDialog = new AlertDialog.Builder(this)
                     //set icon
                     .setIcon(android.R.drawable.ic_menu_info_details)
                     //set title
@@ -185,7 +210,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                         }
                     })
                     //set negative button
-                    .show();
+                    .show();*/
         }
         if (id == R.id.item1){
             Toast.makeText(this, "apie aplikacija", Toast.LENGTH_LONG).show();
