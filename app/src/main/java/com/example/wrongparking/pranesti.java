@@ -248,8 +248,8 @@ public class pranesti extends AppCompatActivity {
 /*                    btnUpload.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));*/
                     Toast.makeText(pranesti.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
                     return;
-                }else if(clicks >= 5) {
-                    Toast.makeText(pranesti.this, "Į dieną galime pranešti apie 5 pažeidimus!", Toast.LENGTH_SHORT).show();
+                }else if(clicks >= 10) {
+                    Toast.makeText(pranesti.this, "Į dieną galime pranešti apie dešimt pažeidimus!", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -390,7 +390,11 @@ public class pranesti extends AppCompatActivity {
                 return;
             }
             isVietasSet = true;
-/*            mAddress = addressesList.get(0).getSubAdminArea();*/
+/*
+            mAddress = addressesList.get(0).getSubAdminArea();
+*/
+
+
             mAddress = addressesList.get(0).getAddressLine(0);
 
             btnGetPlace.setText(mAddress);
@@ -604,6 +608,9 @@ public class pranesti extends AppCompatActivity {
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+                                    SharedPreferences sharedPref;
+                                    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+
 
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(), mValstnum.getText().toString().trim(), uri.toString(),
                                             timeStamp, mPatvirtintas, mPerziuretas, mAddress, mAnswer);
@@ -616,10 +623,19 @@ public class pranesti extends AppCompatActivity {
                                     Log.e("naujasJson", pazeidimaiJson);
                                     Prefs.with(pranesti.this).write(PREFS_KEY_PAZEIDIMAI,pazeidimaiJson);
 
+/*                                    ////ISSAUGOME KEY I SHAREDPREFERENCUS
+                                    sharedPref = getPreferences(MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("firebasekey", String.valueOf(timeStamp));
+                                    editor.apply();
 
 
-
-                                }
+                                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                                        Gson gson = new Gson();
+                                        String json = gson.toJson(upload);
+                                        prefsEditor.putString("manopranesimai", json);
+                                        prefsEditor.apply();*/
+                                    }
                             });
 
 

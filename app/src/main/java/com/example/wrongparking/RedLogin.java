@@ -1,9 +1,12 @@
 package com.example.wrongparking;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -89,18 +92,14 @@ public class RedLogin extends AppCompatActivity {
 
                     startActivity(new Intent(RedLogin.this, Redaktorius.class));
                     finish();
-
                 }
             }
         };
 
-
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startSignIn();
-
             }
         });
     }
@@ -123,7 +122,6 @@ public class RedLogin extends AppCompatActivity {
                 } else {
                     tilEmail.setError(getString(R.string.til_empty_text_edit));
                 }
-
             }
 
             @Override
@@ -153,12 +151,10 @@ public class RedLogin extends AppCompatActivity {
 
             }
         });
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        getMenuInflater().inflate(R.menu.actionbar_menu_redlogin, menu);
         setTitle("Redaktoriaus prisijungimas");
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -177,8 +173,27 @@ public class RedLogin extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id == R.id.apie) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(RedLogin.this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_redlogin, null);
+            Button ok = (Button) mView.findViewById(R.id.ok);
+
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
         if (id == R.id.item1) {
-            Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "apie aplikacija", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

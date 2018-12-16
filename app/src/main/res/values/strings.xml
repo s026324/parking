@@ -45,6 +45,13 @@
     <string name="alertPranesti_text">
         Šiame lange yra matoma pranešimo apie netaisyklingai priparkuota transporto priemonę formą. \nJeigu matote parkavimo pažeidimą ir norite pranešti apie tai, turite užpildyti pilnai šia formą ir nufotografuoti pražeidimą taip, kad būtų aiškiai matomas pažeidimas ir transporto priemonės valstybinis registracijos numeris.
     </string>
+    <string name="alertRedlogin_text">
+        Šis langas yra skirtas redaktoriaus prisijungimui, kad redaktorius prisijungęs galėtu patvirtinti ar atmesti pranešimus.
+    </string>
+
+    <string name="alertFirstRun_text">
+        Šį aplikaciją yra skirta sudrausminti asmenis kurie netaisiklingai parkuojasi.
+    </string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.wrongparking;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
     private Button button;
+    public SharedPreferences sharedPref;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -93,6 +95,9 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
         if (pazeidimaiJson.equals("")) {
              Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
         } else {
+
+            sharedPref = getPreferences(MODE_PRIVATE);
+            String UploadId = sharedPref.getString("firebasekey", "");
 
             Type founderListType = new TypeToken<ArrayList<Upload>>(){}.getType();
 

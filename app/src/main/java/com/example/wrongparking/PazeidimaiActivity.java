@@ -79,6 +79,28 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pazeidimai);
 
+        Boolean isFirstRun = getSharedPreferences("FIRSTRUN", MODE_PRIVATE).getBoolean("isfirstrun", true);
+        if(isFirstRun) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(PazeidimaiActivity.this);
+            View mView = getLayoutInflater().inflate(R.layout.alert_firstrun, null);
+            Button ok = (Button) mView.findViewById(R.id.ok);
+
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            getSharedPreferences("FIRSTRUN", MODE_PRIVATE).edit().putBoolean("isfirstrun",false).commit();
+        }
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
 
@@ -97,6 +119,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                 progress = ProgressDialog.show(this, null,
                 "Kraunama", true);
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,6 +136,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                 }
                 adapter = new PazeidimasAdapter(PazeidimaiActivity.this, itemsList);
                 recyclerView.setAdapter(adapter);
+
             }
 
             @Override
