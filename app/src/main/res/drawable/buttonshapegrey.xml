@@ -8,9 +8,9 @@
     </corners>
     <stroke
         android:width="2dp"
-        android:color="@color/colorPrimaryDark">
+        android:color="@color/gray">
     </stroke>
     <solid
-        android:color="@color/colorPrimaryDark">
+        android:color="@color/gray">
     </solid>
 </shape>

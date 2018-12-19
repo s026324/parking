@@ -36,7 +36,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    api 'com.google.firebase:firebase-auth:16.0.4'
+    api 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation "com.google.android.gms:play-services-places:16.0.0"
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -48,6 +48,8 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'br.com.simplepass:loading-button-android:1.14.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

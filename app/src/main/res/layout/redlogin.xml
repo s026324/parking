@@ -83,6 +83,16 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>-->
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spinlogin"
+            style="@style/SpinKitView.Large.Wave"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_margin="25dp"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/colorPrimaryDark" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/mbutton"
             android:layout_width="fill_parent"

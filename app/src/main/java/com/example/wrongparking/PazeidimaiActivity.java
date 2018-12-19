@@ -1,6 +1,5 @@
 package com.example.wrongparking;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,8 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,13 +72,14 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
 
     LinearLayoutManager layoutManager;
     public PazeidimasAdapter adapter;
-    ProgressDialog progress;
+    ProgressBar progress;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pazeidimai);
+
 
         Boolean isFirstRun = getSharedPreferences("FIRSTRUN", MODE_PRIVATE).getBoolean("isfirstrun", true);
         if(isFirstRun) {
@@ -98,7 +100,7 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
                 }
             });
 
-            getSharedPreferences("FIRSTRUN", MODE_PRIVATE).edit().putBoolean("isfirstrun",false).commit();
+            getSharedPreferences("FIRSTRUN", MODE_PRIVATE).edit().putBoolean("isfirstrun",false).apply();
         }
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -116,15 +118,21 @@ public class PazeidimaiActivity extends AppCompatActivity implements android.sup
         recyclerView.setLayoutManager(layoutManager);
 
 
-                progress = ProgressDialog.show(this, null,
-                "Kraunama", true);
+        recyclerView.setVisibility(View.GONE);
+
+        progress = (ProgressBar)findViewById(R.id.spin);
+        final Wave wave = new Wave();
+        progress.setIndeterminateDrawable(wave);
+/*                progress = ProgressDialog.show(this, null,
+                "Kraunama", true);*/
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("uploads");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progress.dismiss();
+                progress.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
 
                 itemsList = new ArrayList<Upload>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {

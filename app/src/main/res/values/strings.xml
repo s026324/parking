@@ -53,5 +53,19 @@
         Šį aplikaciją yra skirta sudrausminti asmenis kurie netaisiklingai parkuojasi.
     </string>
 
+    <string name="alertaccept_text">
+        <b>Ar tikrai norite patvirtinti šį pranešimą?</b>\n Patvirtinus - šis pranešimas bus rodomas pažeidimų lange.
+    </string>
+
+    <string name="alertarccepted_text">
+        <b>Pranešimas sėkmingai patvirtintas!</b>
+    </string>
+    <string name="alertreject_text">
+        <b>Ar tikrai norite atmesti šį pranešimą?</b>\n Atmetus - šis pranešimas nebus rodomas pažeidimų lange.
+    </string>
+
+    <string name="alertrejected_text">Pranešimas sėkmingai atmestas!</string>
+
+
 
 </resources>

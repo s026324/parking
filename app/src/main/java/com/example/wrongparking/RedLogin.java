@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,6 +32,7 @@ public class RedLogin extends AppCompatActivity {
 
     private Button mLoginBtn;
     private FirebaseAuth mAuth;
+    ProgressBar progress;
 
     private  FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -96,9 +99,15 @@ public class RedLogin extends AppCompatActivity {
             }
         };
 
+        progress = (ProgressBar)findViewById(R.id.spinlogin);
+        final Wave wave = new Wave();
+        progress.setIndeterminateDrawable(wave);
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoginBtn.setVisibility(View.GONE);
+                progress.setVisibility(View.VISIBLE);
                 startSignIn();
             }
         });
@@ -198,6 +207,7 @@ public class RedLogin extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -210,6 +220,8 @@ public class RedLogin extends AppCompatActivity {
         String password = mPass_Edittext.getText().toString();
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+            progress.setVisibility(View.GONE);
+            mLoginBtn.setVisibility(View.VISIBLE);
 
             Toast.makeText(RedLogin.this, "Užpildykite visus laukus", Toast.LENGTH_LONG).show();
 
@@ -223,6 +235,9 @@ public class RedLogin extends AppCompatActivity {
                         Toast.makeText(RedLogin.this, "Prisijungėte", Toast.LENGTH_LONG).show();
                     } else{
                         Toast.makeText(RedLogin.this, "Neteisingai suvesti duomenys", Toast.LENGTH_LONG).show();
+                        progress.setVisibility(View.GONE);
+                        mLoginBtn.setVisibility(View.VISIBLE);
+
                 }
 
                 }

@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -60,4 +61,13 @@
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="66dp" />
 
-</RelativeLayout>
+</RelativeLayout>-->
+<com.github.ybq.android.spinkit.SpinKitView android:id="@+id/spinlogin"
+    style="@style/SpinKitView.Large.Wave"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_gravity="center"
+    android:layout_margin="25dp"
+    app:SpinKit_Color="@color/colorPrimaryDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

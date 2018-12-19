@@ -74,8 +74,8 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        mButton = (Button) findViewById(R.id.buttonTest);
-        Score = (TextView) findViewById(R.id.Score);
+/*        mButton = (Button) findViewById(R.id.buttonTest);
+        Score = (TextView) findViewById(R.id.Score);*/
 
         mPrefs = getSharedPreferences(sharedPreferencesKey, Context.MODE_PRIVATE);
         savedDate = mPrefs.getLong(buttonClickedKey,0);
