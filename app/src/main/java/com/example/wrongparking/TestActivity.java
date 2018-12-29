@@ -56,7 +56,7 @@ public class TestActivity extends AppCompatActivity {
 /*                    mTextMessage.setText("bam");*/
                     return true;
                 case R.id.manopranesimai_nav:
-                    Intent k = new Intent(TestActivity.this, pranesti.class);
+                    Intent k = new Intent(TestActivity.this, AddActivity.class);
                     startActivity(k);
 
                     return true;

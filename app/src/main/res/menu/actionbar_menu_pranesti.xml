@@ -8,10 +8,10 @@
         android:icon="@drawable/ic_info_outline_black_24dp"
         app:showAsAction="always"
         />
-    <item
+<!--    <item
         android:title="Apie aplikaciją"
         android:id="@+id/item1"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 
     <item
         android:title="Prisijungimas redaktoriui"

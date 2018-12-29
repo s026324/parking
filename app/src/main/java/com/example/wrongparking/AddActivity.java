@@ -70,7 +70,7 @@ import java.util.concurrent.TimeUnit;
 
 import es.dmoral.prefs.Prefs;
 
-public class pranesti extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
     static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     public static final String STORAGE_PATH_UPLOADS = "uploads/";
     public static final String DATABASE_PATH_UPLOADS = "uploads";
@@ -108,7 +108,7 @@ public class pranesti extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference mDatabase;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = AddActivity.class.getSimpleName();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -149,7 +149,7 @@ public class pranesti extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.pazeidimai_nav:
 
-                    Intent i = new Intent(pranesti.this, PazeidimaiActivity.class);
+                    Intent i = new Intent(AddActivity.this, MainActivity.class);
                     startActivity(i);
 
                     return true;
@@ -158,7 +158,7 @@ public class pranesti extends AppCompatActivity {
 
                     return true;
                 case R.id.manopranesimai_nav:
-                    Intent k = new Intent(pranesti.this, ManoPranesimaiActivity.class);
+                    Intent k = new Intent(AddActivity.this, ManoPranesimaiActivity.class);
                     startActivity(k);
 
                     return true;
@@ -170,7 +170,7 @@ public class pranesti extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pranesti);
+        setContentView(R.layout.add);
         gson = new Gson();
         pranesimaiList = new ArrayList<>();
 
@@ -246,10 +246,10 @@ public class pranesti extends AppCompatActivity {
             public void onClick(View view) {
                 if(!btnUpload.isActivated()){
 /*                    btnUpload.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));*/
-                    Toast.makeText(pranesti.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddActivity.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
                     return;
                 }else if(clicks >= 10) {
-                    Toast.makeText(pranesti.this, "Į dieną galime pranešti apie dešimt pažeidimus!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddActivity.this, "Į dieną galime pranešti apie dešimt pažeidimus!", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -275,7 +275,7 @@ public class pranesti extends AppCompatActivity {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
                 try {
-                    startActivityForResult(builder.build(pranesti.this), PLACE_PICKER_REQUEST);
+                    startActivityForResult(builder.build(AddActivity.this), PLACE_PICKER_REQUEST);
                 } catch (GooglePlayServicesRepairableException e) {
                     e.printStackTrace();
                 } catch (GooglePlayServicesNotAvailableException e) {
@@ -385,7 +385,7 @@ public class pranesti extends AppCompatActivity {
             addressesList = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
 
             if (addressesList.size() == 0) {
-                Toast.makeText(pranesti.this, "Prašome patikslinti pasirinkta adresą", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddActivity.this, "Prašome patikslinti pasirinkta adresą", Toast.LENGTH_LONG).show();
                 isVietasSet = false;
                 return;
             }
@@ -481,7 +481,7 @@ public class pranesti extends AppCompatActivity {
     }
 
     private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(pranesti.this,
+        ActivityCompat.requestPermissions(AddActivity.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
@@ -600,9 +600,9 @@ public class pranesti extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(pranesti.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddActivity.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
 
-                            Intent i = new Intent(pranesti.this, PazeidimaiActivity.class);
+                            Intent i = new Intent(AddActivity.this, MainActivity.class);
                             startActivity(i);
 
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -621,7 +621,7 @@ public class pranesti extends AppCompatActivity {
 
                                     pazeidimaiJson = gson.toJson(pranesimaiList);
                                     Log.e("naujasJson", pazeidimaiJson);
-                                    Prefs.with(pranesti.this).write(PREFS_KEY_PAZEIDIMAI,pazeidimaiJson);
+                                    Prefs.with(AddActivity.this).write(PREFS_KEY_PAZEIDIMAI,pazeidimaiJson);
 
 /*                                    ////ISSAUGOME KEY I SHAREDPREFERENCUS
                                     sharedPref = getPreferences(MODE_PRIVATE);
@@ -642,7 +642,7 @@ public class pranesti extends AppCompatActivity {
                          //   Date data = new Date();
                          //   String dateString = new SimpleDateFormat("MM/dd/yyyy").format(timeStamp);
 
-                      //      Toast.makeText(pranesti.this, dateString, Toast.LENGTH_LONG).show();
+                      //      Toast.makeText(AddActivity.this, dateString, Toast.LENGTH_LONG).show();
 
 
 
@@ -654,7 +654,7 @@ public class pranesti extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(pranesti.this, "Klaida" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddActivity.this, "Klaida" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -748,7 +748,7 @@ public class pranesti extends AppCompatActivity {
         }*/
         if (id == R.id.apie) {
 
-            AlertDialog.Builder mBuilder = new AlertDialog.Builder(pranesti.this);
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddActivity.this);
             View mView = getLayoutInflater().inflate(R.layout.alert_pranesti, null);
             Button ok = (Button) mView.findViewById(R.id.ok);
 
@@ -785,7 +785,7 @@ public class pranesti extends AppCompatActivity {
                     .show();*/
         }
         if (id == R.id.item2) {
-            Intent i = new Intent(pranesti.this, RedLogin.class);
+            Intent i = new Intent(AddActivity.this, RedLogin.class);
             startActivity(i);
         }
         return super.onOptionsItemSelected(item);

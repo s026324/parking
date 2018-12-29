@@ -3,8 +3,8 @@ package com.example.wrongparking;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +51,11 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        long timestamp = mItemsList.get(position).getTime();
+        final long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
 
-        String formattedDate = simpleDateFormat.format(date);
+        final String formattedDate = simpleDateFormat.format(date);
 
         Picasso.get()
                 .load(mItemsList.get(position)
@@ -70,7 +70,9 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         holder.tvAdresas.setText(address);
         holder.tvData.setText(formattedDate);
 
-        holder.tvAdresas.setOnClickListener(new View.OnClickListener() {
+        /// REIKALINGAS I PREVIEWACTIVITY!!!
+
+/*        holder.tvAdresas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String addressPath = MAPS_NAVIGATION_ACTION + address;
@@ -79,30 +81,41 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
                 mapIntentPazeidimas.setPackage(MAPS_INTENT_PATH);
                 mContext.startActivity(mapIntentPazeidimas);
             }
-        });
+        });*/
 
-        holder.ivFoto.setOnClickListener(new View.OnClickListener() {
+        //// REIKALINGAS I PREVIEWACTIVITY!!!!
+
+/*        holder.ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String url = mItemsList.get(position).getImageUrl();
                 Intent i = new Intent(mContext,FullScreenActivity.class);
-                //i.setData(Uri.parse(url));
-
-/*
-                Picasso.get().load(mItemsList.get(position)
-                        .getImageUrl())
-
-                        .into();
-*/
-
 
                 i.putExtra("ItemImage", url);
                 mContext.startActivity(i);
-/*                mContext.startActivity(i);*/
             }
-        });
+        });*/
+           holder.cardView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent i = new Intent(mContext, PreviewActivity.class);
+                   String url = mItemsList.get(position).getImageUrl();
+                   String adress = mItemsList.get(position).getAddress();
+                   String aprasymas = mItemsList.get(position).getName();
+                   String valstnum = mItemsList.get(position).getValstnum();
+/*                   String datetime = mItemsList.get(position).getTime();*/
 
+
+                   i.putExtra("image", url);
+                   i.putExtra("adress", adress);
+                   i.putExtra("aprasymas", aprasymas);
+                   i.putExtra("valstnum", valstnum);
+                   i.putExtra("time", formattedDate);
+
+                   mContext.startActivity(i);
+               }
+           });
     }
 
     @Override
@@ -124,6 +137,8 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             public Context context;
             public PhotoView photoView;
             public ImageView ImageBanner;
+            public CardView cardView;
+
 
 
         ViewHolder(View itemView) {
@@ -137,6 +152,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             ivFoto          = itemView.findViewById(R.id.iv_foto);
             context         = itemView.getContext();
             photoView = itemView.findViewById(R.id.your_photo_view);
+            cardView = itemView.findViewById(R.id.cardView);
         }
         @Override
         public void onClick(View view) {

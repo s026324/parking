@@ -16,19 +16,11 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rc_pazeidimai"
+
         android:layout_width="match_parent"
-        android:layout_height="638dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
-
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/spin"
-        style="@style/SpinKitView.Large.Wave"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="25dp"
-        app:SpinKit_Color="@color/colorPrimaryDark" />
 
 
 </LinearLayout>

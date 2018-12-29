@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
+<!--    <item
         android:title="Apie aplikaciją"
         android:id="@+id/item1"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 
 
     <item

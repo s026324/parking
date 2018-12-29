@@ -2,6 +2,7 @@ package com.example.wrongparking;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.Wave;
@@ -33,6 +35,7 @@ public class RedLogin extends AppCompatActivity {
     private Button mLoginBtn;
     private FirebaseAuth mAuth;
     ProgressBar progress;
+    private TextView resetPass;
 
     private  FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -46,13 +49,13 @@ public class RedLogin extends AppCompatActivity {
 
                 case R.id.pazeidimai_nav:
 
-                    Intent i = new Intent(RedLogin.this, PazeidimaiActivity.class);
+                    Intent i = new Intent(RedLogin.this, MainActivity.class);
                     startActivity(i);
 
 
                     return true;
                 case R.id.pranesti_nav:
-                    Intent j = new Intent(RedLogin.this, pranesti.class);
+                    Intent j = new Intent(RedLogin.this, AddActivity.class);
                     startActivity(j);
 
 
@@ -80,6 +83,8 @@ public class RedLogin extends AppCompatActivity {
 
         mEmail_Edittext = (EditText) findViewById(R.id.mEmail);
         mPass_Edittext = (EditText) findViewById(R.id.mPass);
+        resetPass = (TextView) findViewById(R.id.passwordreset);
+        resetPass.setPaintFlags(resetPass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 
         mLoginBtn = (Button) findViewById(R.id.mbutton);
@@ -93,7 +98,7 @@ public class RedLogin extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null){
 
-                    startActivity(new Intent(RedLogin.this, Redaktorius.class));
+                    startActivity(new Intent(RedLogin.this, Editor.class));
                     finish();
                 }
             }
@@ -102,6 +107,14 @@ public class RedLogin extends AppCompatActivity {
         progress = (ProgressBar)findViewById(R.id.spinlogin);
         final Wave wave = new Wave();
         progress.setIndeterminateDrawable(wave);
+
+        resetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RedLogin.this, ResetPassActivity.class);
+                startActivity(i);
+            }
+        });
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,9 +214,9 @@ public class RedLogin extends AppCompatActivity {
             });
         }
 
-        if (id == R.id.item1) {
+/*        if (id == R.id.item1) {
             Toast.makeText(this, "apie aplikacija", Toast.LENGTH_LONG).show();
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

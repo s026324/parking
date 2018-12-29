@@ -18,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -43,6 +43,7 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
     public PazeidimasAdapter adapter;
     private Button button;
     public SharedPreferences sharedPref;
+    public TextView noAdds;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,12 +53,12 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
             switch (item.getItemId()) {
                 case R.id.pazeidimai_nav:
 
-                    Intent i = new Intent(ManoPranesimaiActivity.this, PazeidimaiActivity.class);
+                    Intent i = new Intent(ManoPranesimaiActivity.this, MainActivity.class);
                     startActivity(i);
 
                     return true;
                 case R.id.pranesti_nav:
-                    Intent j = new Intent(ManoPranesimaiActivity.this, pranesti.class);
+                    Intent j = new Intent(ManoPranesimaiActivity.this, AddActivity.class);
                     startActivity(j);
 
                     return true;
@@ -77,14 +78,12 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        TextView noAdds = (TextView) findViewById(R.id.noAdds);
 
         View view = navigation.findViewById(R.id.manopranesimai_nav);
         view.performClick();
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        //layoutManager.setReverseLayout(true);
-        //layoutManager.setStackFromEnd(true);
-        //layoutManager.setReverseLayout(true);
         recyclerView = (RecyclerView) findViewById(R.id.rc_pazeidimai);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -93,7 +92,8 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
 
         pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI,"");
         if (pazeidimaiJson.equals("")) {
-             Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
+            noAdds.setVisibility(View.VISIBLE);
+/*             Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();*/
         } else {
 
             sharedPref = getPreferences(MODE_PRIVATE);
@@ -180,9 +180,9 @@ public class ManoPranesimaiActivity extends AppCompatActivity implements android
                     .show();*/
         }
 
-        if (id == R.id.item1) {
+/*        if (id == R.id.item1) {
             Toast.makeText(this, "bambo", Toast.LENGTH_LONG).show();
-        }
+        }*/
         if (id == R.id.item2) {
             Intent i = new Intent(ManoPranesimaiActivity.this, RedLogin.class);
             startActivity(i);

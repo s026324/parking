@@ -37,35 +37,37 @@
     </string-array>
 
     <string name="alertPazeidimai_text">
-        Šiame lange yra matomi visi patvirtinti netaisiklingai priparkuotu transporto priemonių pranešimai.  \nJeigu norite pranešti apie pažeidimą, spauskite žėmiau esanti mygtuką - <b>Pranešti</b>
-    </string>
+    Šiame lange yra matomi visi patvirtinti netaisyklingai pastatytų transporto priemonių pranešimai.  \nJeigu norite pranešti apie pažeidimą, spauskite žemiau esantį mygtuką - <b>Pranešti</b>
+</string>
     <string name="alertManoPazeidimai_text">
-        Šiame lange yra rodomi visi Jūsų pranešimai.
-    </string>
+    Šiame lange yra rodomi visi Jūsų pranešimai.
+</string>
     <string name="alertPranesti_text">
-        Šiame lange yra matoma pranešimo apie netaisyklingai priparkuota transporto priemonę formą. \nJeigu matote parkavimo pažeidimą ir norite pranešti apie tai, turite užpildyti pilnai šia formą ir nufotografuoti pražeidimą taip, kad būtų aiškiai matomas pažeidimas ir transporto priemonės valstybinis registracijos numeris.
-    </string>
+    Šiame lange yra rodoma pranešimo, apie netaisyklingai pastatytą transporto priemonę, forma. \nJeigu matote parkavimo pažeidimą ir norite pranešti apie tai, turite pilnai užpildyti šią formą ir nufotografuoti pražeidimą taip, kad būtų aiškiai matomas pažeidimas ir transporto priemonės valstybinis registracijos numeris.
+</string>
     <string name="alertRedlogin_text">
-        Šis langas yra skirtas redaktoriaus prisijungimui, kad redaktorius prisijungęs galėtu patvirtinti ar atmesti pranešimus.
-    </string>
+    Šis langas yra skirtas redaktoriaus prisijungimui. Prisijungęs galėsite patvirtinti arba atmesti pranešimus.
+</string>
 
     <string name="alertFirstRun_text">
-        Šį aplikaciją yra skirta sudrausminti asmenis kurie netaisiklingai parkuojasi.
-    </string>
+    Ši aplikacija yra skirta sudrausminti asmenis, kurie statydami savo transporto priemones, pažeidžia kelių eismo taisykles.
+</string>
 
     <string name="alertaccept_text">
-        <b>Ar tikrai norite patvirtinti šį pranešimą?</b>\n Patvirtinus - šis pranešimas bus rodomas pažeidimų lange.
-    </string>
+    <b>Ar tikrai norite patvirtinti šį pranešimą?</b>\n Patvirtinus šis pranešimas bus rodomas pažeidimų lange.
+</string>
 
     <string name="alertarccepted_text">
-        <b>Pranešimas sėkmingai patvirtintas!</b>
-    </string>
+    <b>Pranešimas sėkmingai patvirtintas!</b>
+</string>
     <string name="alertreject_text">
-        <b>Ar tikrai norite atmesti šį pranešimą?</b>\n Atmetus - šis pranešimas nebus rodomas pažeidimų lange.
-    </string>
+    <b>Ar tikrai norite atmesti šį pranešimą?</b>\n Atmetus šis pranešimas nebus rodomas pažeidimų lange.
+</string>
 
     <string name="alertrejected_text">Pranešimas sėkmingai atmestas!</string>
 
+    <string name="resetpassword_text">Įveskite savo elektroninio pašto dežutės adresą, kad galėtumėte atnaujinti savo slaptažodį.</string>
 
+    <string name="alert_passwordreseted_text">Turite gaut laišką į Jumis nurodyta el. pašto dėžutę, taip galėsite atnaujinti savo prisijungimo slaptažodį</string>
 
 </resources>

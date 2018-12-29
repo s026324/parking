@@ -202,7 +202,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 reference.child(path).updateChildren(result);
 
                                 mItemsList.remove(position);
-                                Redaktorius.adapter.notifyItemRemoved(position);
+                                Editor.adapter.notifyItemRemoved(position);
 
                             }
 
@@ -296,7 +296,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 reference.child(path).updateChildren(result);
 
                                 mItemsList.remove(position);
-                                Redaktorius.adapter.notifyItemRemoved(position);
+                                Editor.adapter.notifyItemRemoved(position);
 
                             }
 
@@ -392,7 +392,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 reference.child(path).updateChildren(result);
 
                                 mItemsList.remove(position);
-                                Redaktorius.adapter.notifyItemRemoved(position);
+                                Editor.adapter.notifyItemRemoved(position);
 
                             }
 
@@ -486,7 +486,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 reference.child(path).updateChildren(result);
 
                                 mItemsList.remove(position);
-                                Redaktorius.adapter.notifyItemRemoved(position);
+                                Editor.adapter.notifyItemRemoved(position);
 
 
 
@@ -543,7 +543,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                         reference.child(path).updateChildren(result);
 
                                         mItemsList.remove(position);
-                                        Redaktorius.adapter.notifyItemRemoved(position);
+                                        Editor.adapter.notifyItemRemoved(position);
                                     }
 
                                     @Override

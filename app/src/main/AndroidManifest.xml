@@ -22,7 +22,7 @@
             android:value="@string/map_api_key" />
 
         <activity
-            android:name=".PazeidimaiActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,17 +31,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".pranesti"
+            android:name=".AddActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan"/>
-<!--            android:windowSoftInputMode="stateHidden|adjustResize"-->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- android:windowSoftInputMode="stateHidden|adjustResize" -->
         <activity
             android:name=".RedLogin"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
-            android:name=".Redaktorius"
+            android:name=".Editor"
             android:theme="@style/AppTheme" />
-<!--            <activity
+        <!--
+                <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test">
                 <intent-filter>
@@ -49,7 +51,8 @@
 
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
-            </activity>-->
+            </activity>
+        -->
         <activity
             android:name=".ManoPranesimaiActivity"
             android:theme="@style/AppTheme" />
@@ -58,9 +61,14 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".FullScreenActivity"
+        <activity android:name=".FullScreenActivity" />
+        <activity android:name=".ResetPassActivity"
+            android:label="Slaptažodžio atnaujinimas"
+            android:parentActivityName=".RedLogin"
+            android:windowSoftInputMode="stateHidden">
 
-            ></activity>
+        </activity>
+        <activity android:name=".PreviewActivity" />
     </application>
 
 </manifest>

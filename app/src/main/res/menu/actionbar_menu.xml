@@ -15,10 +15,10 @@
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <item
+<!--    <item
         android:title="Apie aplikaciją"
         android:id="@+id/item1"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 
     <item
         android:title="Prisijungimas redaktoriui"
