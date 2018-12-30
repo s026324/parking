@@ -25,7 +25,7 @@ public class FullScreenActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null){
             String photoUri = getIntent().getStringExtra("ItemImage");
             if(photoUri != null && !photoUri.equals("")){
-                Picasso.get().load(photoUri).into(fullScreenPhotoView);
+                Picasso.get().load(photoUri).placeholder( R.drawable.progress_animation ).into(fullScreenPhotoView);
             }
         }
 

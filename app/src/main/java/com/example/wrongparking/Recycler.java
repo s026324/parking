@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
     private Context mContext;
     private LayoutInflater mInflater;
     private ArrayList<Upload> mItemsList;
+    public EditText comment;
 
     String address = "";
     Date date;
@@ -129,7 +131,6 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 Intent i = new Intent(mContext,FullScreenActivity.class);
                 i.putExtra("ItemImage", url);
                 mContext.startActivity(i);
-
             }
         });
 
@@ -146,6 +147,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 View mView = LayoutInflater.from(mContext).inflate(R.layout.alert_accept, null);
                 final TextView message = (TextView) mView.findViewById(R.id.message);
                 final TextView messageSuccess = (TextView) mView.findViewById(R.id.messageSuccess);
+                final EditText comment = (EditText) mView.findViewById(R.id.commentinput);
                 Button close = (Button) mView.findViewById(R.id.cancel);
                 final CircularProgressButton acceptProgressButton = (CircularProgressButton) mView.findViewById(R.id.acceptID);
                 builder.setView(mView);
@@ -175,6 +177,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
                                     acceptProgressButton.doneLoadingAnimation(Color.parseColor("#4CC94C"), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done_white_48dp));
                                     message.setVisibility(View.GONE);
+                                    comment.setVisibility(View.GONE);
                                     messageSuccess.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -197,7 +200,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 HashMap<String, Object> result = new HashMap<>();
                                 result.put("patvirtintas", true);
                                 result.put("perziuretas",true);
-                                /*                                result.put("answer", acceptMessage.getText().toString());*/
+                                result.put("answer", comment.getText().toString());
 
                                 reference.child(path).updateChildren(result);
 
@@ -240,6 +243,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 View mView = LayoutInflater.from(mContext).inflate(R.layout.alert_reject, null);
                 final TextView message = (TextView) mView.findViewById(R.id.message);
                 final TextView messageSuccess = (TextView) mView.findViewById(R.id.messageSuccess);
+                final EditText comment = (EditText) mView.findViewById(R.id.commentinput);
                 Button close = (Button) mView.findViewById(R.id.cancel);
                 final CircularProgressButton acceptProgressButton = (CircularProgressButton) mView.findViewById(R.id.rejectID);
                 builder.setView(mView);
@@ -269,6 +273,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
                                     acceptProgressButton.doneLoadingAnimation(Color.parseColor("#B20000"), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done_white_48dp));
                                     message.setVisibility(View.GONE);
+                                    comment.setVisibility(View.GONE);
                                     messageSuccess.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -278,7 +283,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                     }
 
                     public void reject() {
-                        Log.e("patvirtintiClick","patvirtinti");
+                         Log.e("patvirtintiClick","patvirtinti");
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         final DatabaseReference reference = firebaseDatabase.getReference();
                         Query query = reference.child("uploads").orderByChild("time").equalTo(mItemsList.get(position).getTime());
@@ -291,7 +296,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 HashMap<String, Object> result = new HashMap<>();
                                 result.put("patvirtintas", false);
                                 result.put("perziuretas",true);
-                                /*                                result.put("answer", acceptMessage.getText().toString());*/
+                                result.put("answer", comment.getText().toString());
 
                                 reference.child(path).updateChildren(result);
 
@@ -335,6 +340,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 }
                 View mView = LayoutInflater.from(mContext).inflate(R.layout.alert_accept, null);
                 final TextView message = (TextView) mView.findViewById(R.id.message);
+                final EditText comment = (EditText) mView.findViewById(R.id.commentinput);
                 final TextView messageSuccess = (TextView) mView.findViewById(R.id.messageSuccess);
                 Button close = (Button) mView.findViewById(R.id.cancel);
                 final CircularProgressButton acceptProgressButton = (CircularProgressButton) mView.findViewById(R.id.acceptID);
@@ -365,6 +371,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
                                     acceptProgressButton.doneLoadingAnimation(Color.parseColor("#4CC94C"), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done_white_48dp));
                                     message.setVisibility(View.GONE);
+                                    comment.setVisibility(View.GONE);
                                     messageSuccess.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -374,6 +381,8 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                     }
 
                     private void accept() {
+
+
                         Log.e("patvirtintiClick","patvirtinti");
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         final DatabaseReference reference = firebaseDatabase.getReference();
@@ -387,7 +396,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 HashMap<String, Object> result = new HashMap<>();
                                 result.put("patvirtintas", true);
                                 result.put("perziuretas",true);
-                                /*                                result.put("answer", acceptMessage.getText().toString());*/
+                                result.put("answer", comment.getText().toString());
 
                                 reference.child(path).updateChildren(result);
 
@@ -429,6 +438,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                 }
                 View mView = LayoutInflater.from(mContext).inflate(R.layout.alert_reject, null);
                 final TextView message = (TextView) mView.findViewById(R.id.message);
+                final EditText comment = (EditText) mView.findViewById(R.id.commentinput);
                 final TextView messageSuccess = (TextView) mView.findViewById(R.id.messageSuccess);
                 Button close = (Button) mView.findViewById(R.id.cancel);
                 final CircularProgressButton acceptProgressButton = (CircularProgressButton) mView.findViewById(R.id.rejectID);
@@ -459,6 +469,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
 
                                     acceptProgressButton.doneLoadingAnimation(Color.parseColor("#B20000"), BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_done_white_48dp));
                                     message.setVisibility(View.GONE);
+                                    comment.setVisibility(View.GONE);
                                     messageSuccess.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -481,7 +492,7 @@ public class Recycler extends RecyclerView.Adapter<Recycler.ViewHolder> {
                                 HashMap<String, Object> result = new HashMap<>();
                                 result.put("patvirtintas", false);
                                 result.put("perziuretas", true);
-                                /*                                result.put("answer", acceptMessage.getText().toString());*/
+                                result.put("answer", comment.getText().toString());
 
                                 reference.child(path).updateChildren(result);
 

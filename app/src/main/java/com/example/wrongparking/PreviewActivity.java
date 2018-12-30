@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import static com.example.wrongparking.PazeidimasAdapter.MAPS_INTENT_PATH;
-import static com.example.wrongparking.PazeidimasAdapter.MAPS_NAVIGATION_ACTION;
+import static com.example.wrongparking.MainAdapter.MAPS_INTENT_PATH;
+import static com.example.wrongparking.MainAdapter.MAPS_NAVIGATION_ACTION;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -25,24 +25,37 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         Log.d(TAG, "onCreate: started");
         getIncomingIntent();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        //code it to launch an intent to the activity you want
+        finish();
+        return true;
     }
     private void getIncomingIntent(){
         if(getIntent().hasExtra("image") && getIntent().hasExtra("adress") &&
                 getIntent().hasExtra("aprasymas") && getIntent().hasExtra("valstnum") &&
-                getIntent().hasExtra("time")
+                getIntent().hasExtra("time") && getIntent().hasExtra("answer")
                 ) {
             String imageUrl = getIntent().getStringExtra("image");
             String adressLine = getIntent().getStringExtra("adress");
             String aprasymas = getIntent().getStringExtra("aprasymas");
             String valstnum = getIntent().getStringExtra("valstnum");
             String datetime = getIntent().getStringExtra("time");
+            String answer = getIntent().getStringExtra("answer");
 
 
-            setImage(imageUrl, adressLine, aprasymas, valstnum, datetime);
+            setImage(imageUrl, adressLine, aprasymas, valstnum, datetime, answer);
         }
     }
 
-    private void setImage (final String imageUrl, final String adressLine, String aprasymas, String valstnum, String datetime){
+    private void setImage (final String imageUrl, final String adressLine, String aprasymas, String valstnum,
+                           String datetime, String answer){
         final ImageView image = findViewById(R.id.imagepreview);
 
         Picasso.get()
@@ -85,5 +98,14 @@ public class PreviewActivity extends AppCompatActivity {
 
         TextView datetimeText = findViewById(R.id.timepreview);
         datetimeText.setText(datetime);
+
+        TextView answerText = findViewById(R.id.answerpreview);
+        answerText.setText(answer);
+
+        final TextView answerTextas = findViewById(R.id.textView9);
+
+        if (answer.equals("")){
+            answerTextas.setVisibility(View.GONE);
+        }
     }
 }

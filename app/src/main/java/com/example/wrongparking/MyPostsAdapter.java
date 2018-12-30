@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.ViewHolder> {
+public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHolder> {
 
     public static final String MAPS_NAVIGATION_ACTION = "google.navigation:q=";
     public static final String MAPS_INTENT_PATH = "com.google.android.apps.maps";
@@ -32,7 +32,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
     Date date;
 
 
-    public PazeidimasAdapter(Context mContext, ArrayList<Upload> mItemsList) {
+    public MyPostsAdapter(Context mContext, ArrayList<Upload> mItemsList) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
         this.mItemsList = mItemsList;
@@ -44,14 +44,14 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         String imageUrl;
-        View view = mInflater.inflate(R.layout.item_pazeidimas,parent,false);
+        View view = mInflater.inflate(R.layout.item_mypostscardview,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        final long timestamp = mItemsList.get(position).getTime();
+        long timestamp = mItemsList.get(position).getTime();
         address = mItemsList.get(position).getAddress();
         date = new Date(timestamp);
 
@@ -60,7 +60,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         Picasso.get()
                 .load(mItemsList.get(position)
                         .getImageUrl())
-                 .placeholder( R.drawable.progress_animation )
+                .placeholder( R.drawable.progress_animation )
                 .fit()
                 .centerCrop()
                 .into(holder.ivFoto);
@@ -70,54 +70,39 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
         holder.tvAdresas.setText(address);
         holder.tvData.setText(formattedDate);
 
-        /// REIKALINGAS I PREVIEWACTIVITY!!!
+        if(mItemsList.get(position).isPatvirtintas()){
+            holder.tvPatvirtintas.setText("Patvirtintas");
+            holder.tvPatvirtintas.setTextColor(mContext.getResources().getColor(R.color.colorPatvirtintas));
+        } else {
+            holder.tvPatvirtintas.setText("Nepatvirtintas");
+            holder.tvPatvirtintas.setTextColor(mContext.getResources().getColor(R.color.colorNepatvirtintas));
+        }
 
-/*        holder.tvAdresas.setOnClickListener(new View.OnClickListener() {
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String addressPath = MAPS_NAVIGATION_ACTION + address;
-                Uri gmmIntentUri = Uri.parse(addressPath);
-                Intent mapIntentPazeidimas = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntentPazeidimas.setPackage(MAPS_INTENT_PATH);
-                mContext.startActivity(mapIntentPazeidimas);
-            }
-        });*/
-
-        //// REIKALINGAS I PREVIEWACTIVITY!!!!
-
-/*        holder.ivFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+                Intent i = new Intent(mContext, PreviewActivity.class);
                 String url = mItemsList.get(position).getImageUrl();
-                Intent i = new Intent(mContext,FullScreenActivity.class);
+                String adress = mItemsList.get(position).getAddress();
+                String aprasymas = mItemsList.get(position).getName();
+                String valstnum = mItemsList.get(position).getValstnum();
+                String answer = mItemsList.get(position).getAnswer();
+                /*                   String datetime = mItemsList.get(position).getTime();*/
 
-                i.putExtra("ItemImage", url);
+
+                i.putExtra("image", url);
+                i.putExtra("adress", adress);
+                i.putExtra("aprasymas", aprasymas);
+                i.putExtra("valstnum", valstnum);
+                i.putExtra("time", formattedDate);
+                i.putExtra("answer", answer);
+
                 mContext.startActivity(i);
             }
-        });*/
-           holder.cardView.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent i = new Intent(mContext, PreviewActivity.class);
-                   String url = mItemsList.get(position).getImageUrl();
-                   String adress = mItemsList.get(position).getAddress();
-                   String aprasymas = mItemsList.get(position).getName();
-                   String valstnum = mItemsList.get(position).getValstnum();
-/*                   String datetime = mItemsList.get(position).getTime();*/
+        });
 
-
-                   i.putExtra("image", url);
-                   i.putExtra("adress", adress);
-                   i.putExtra("aprasymas", aprasymas);
-                   i.putExtra("valstnum", valstnum);
-                   i.putExtra("time", formattedDate);
-
-                   mContext.startActivity(i);
-               }
-           });
     }
-
     @Override
     public int getItemCount() {
         return mItemsList.size();
@@ -132,13 +117,11 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas;
-            public ImageView ivFoto;
-            public Context context;
-            public PhotoView photoView;
-            public ImageView ImageBanner;
-            public CardView cardView;
-
+        public TextView tvValstybinisNr, tvAdresas, tvData, tvAprasymas,tvPatvirtintas;
+        public ImageView ivFoto;
+        public Context context;
+        public PhotoView photoView;
+        public CardView cardView;
 
 
         ViewHolder(View itemView) {
@@ -148,6 +131,7 @@ public class PazeidimasAdapter extends RecyclerView.Adapter<PazeidimasAdapter.Vi
             tvValstybinisNr = itemView.findViewById(R.id.tv_valst_nr);
             tvAdresas       = itemView.findViewById(R.id.tv_adressas);
             tvAprasymas     = itemView.findViewById(R.id.tv_aprasymas);
+            tvPatvirtintas  = itemView.findViewById(R.id.tvPatvirtintas);
             tvData          = itemView.findViewById(R.id.tv_data);
             ivFoto          = itemView.findViewById(R.id.iv_foto);
             context         = itemView.getContext();

@@ -54,7 +54,7 @@
             </activity>
         -->
         <activity
-            android:name=".ManoPranesimaiActivity"
+            android:name=".MyPostsActivity"
             android:theme="@style/AppTheme" />
 
         <meta-data
@@ -68,7 +68,9 @@
             android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".PreviewActivity" />
+        <activity android:name=".PreviewActivity"
+            android:label="Pažeidimo peržiūra"
+            />
     </application>
 
 </manifest>

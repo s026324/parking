@@ -54,14 +54,14 @@
 </string>
 
     <string name="alertaccept_text">
-    <b>Ar tikrai norite patvirtinti šį pranešimą?</b>\n Patvirtinus šis pranešimas bus rodomas pažeidimų lange.
+        <b>Patvirtinant pažeidimą galite pakomentuoti, pvz.:" Pažeidimas (pagal Administracinių nusižengimų kodekso 418 straipsnį)"</b>
 </string>
 
     <string name="alertarccepted_text">
     <b>Pranešimas sėkmingai patvirtintas!</b>
 </string>
     <string name="alertreject_text">
-    <b>Ar tikrai norite atmesti šį pranešimą?</b>\n Atmetus šis pranešimas nebus rodomas pažeidimų lange.
+    <b>Atmetant pažeidimą galite pakomentuoti, pvz.: "Nuotraukoje nesimato tr. priemonės reg. numerių".</b>
 </string>
 
     <string name="alertrejected_text">Pranešimas sėkmingai atmestas!</string>

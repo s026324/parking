@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
 
                 case R.id.manopranesimai_nav:
-                    Intent k = new Intent(MainActivity.this, ManoPranesimaiActivity.class);
+                    Intent k = new Intent(MainActivity.this, MyPostsActivity.class);
                     startActivity(k);
 
                     return false;
@@ -72,15 +72,17 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
 
     LinearLayoutManager layoutManager;
-    public PazeidimasAdapter adapter;
+    public MainAdapter adapter;
     ProgressBar progress;
     public TextView noitems;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         Boolean isFirstRun = getSharedPreferences("FIRSTRUN", MODE_PRIVATE).getBoolean("isfirstrun", true);
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                         itemsList.add(singleItem);
                     }
                 }
-                adapter = new PazeidimasAdapter(MainActivity.this, itemsList);
+                adapter = new MainAdapter(MainActivity.this, itemsList);
                 recyclerView.setAdapter(adapter);
 
                 if (itemsList != null && itemsList.isEmpty()){

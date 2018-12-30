@@ -50,6 +50,17 @@
                     android:gravity="center"
                     android:text="@string/alertaccept_text"
                     android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/commentinput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:ems="10"
+                    android:hint="Įveskite komentarą"
+                    android:inputType="textPersonName" />
+
                 <TextView
                     android:id="@+id/messageSuccess"
                     android:layout_width="wrap_content"

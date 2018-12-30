@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardElevation="10dp"
+    android:id="@+id/cardView">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_foto"
+            android:layout_width="128dp"
+            android:layout_height="120dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_valst_nr"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+
+
+            android:text="EBG998"
+            android:textColor="@android:color/black"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_adressas"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+
+            android:layout_below="@+id/tvPatvirtintas"
+            android:paddingRight="15dp"
+            android:text="Virsuliskiu 24, Vilnius, 5008"
+            android:textColor="@color/blue"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_aprasymas"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+
+            android:layout_below="@+id/tv_adressas"
+            android:paddingRight="15dp"
+            android:text="Tam tikras aprasymas kuris bus keliose eilutese ir nurodys info apie pazeidima"
+            android:textColor="@color/darkerGray"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tvPatvirtintas"
+            android:layout_below="@+id/tv_valst_nr"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Patvirtintas"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_aprasymas"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="2018 10 26"
+            android:textAlignment="center"
+            android:textColor="@color/darkGray"
+            android:textSize="14sp" />
+
+
+        <com.github.chrisbanes.photoview.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/your_photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

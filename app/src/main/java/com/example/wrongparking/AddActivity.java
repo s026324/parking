@@ -158,7 +158,7 @@ public class AddActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.manopranesimai_nav:
-                    Intent k = new Intent(AddActivity.this, ManoPranesimaiActivity.class);
+                    Intent k = new Intent(AddActivity.this, MyPostsActivity.class);
                     startActivity(k);
 
                     return true;

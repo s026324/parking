@@ -62,7 +62,7 @@ public class RedLogin extends AppCompatActivity {
 
                     return true;
                 case R.id.manopranesimai_nav:
-                    Intent k = new Intent(RedLogin.this, ManoPranesimaiActivity.class);
+                    Intent k = new Intent(RedLogin.this, MyPostsActivity.class);
                     startActivity(k);
 
                     return true;
