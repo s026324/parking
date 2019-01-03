@@ -44,9 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
+                    android:layout_marginLeft="22dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginRight="32dp"
+                    android:layout_marginRight="22dp"
                     android:gravity="center"
                     android:text="@string/alertaccept_text"
                     android:textSize="16sp" />
@@ -54,12 +54,13 @@
                 <EditText
                     android:id="@+id/commentinput"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="81dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    android:ems="10"
+                    android:layout_marginTop="5dp"
+                    android:ems="12"
                     android:hint="Įveskite komentarą"
-                    android:inputType="textPersonName" />
+                    android:inputType="textMultiLine"
+                    android:maxLines="5" />
 
                 <TextView
                     android:id="@+id/messageSuccess"
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/primary_button"

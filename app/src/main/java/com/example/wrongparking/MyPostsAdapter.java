@@ -142,9 +142,6 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
         }
         @Override
         public void onClick(View view) {
-
         }
     }
-
-
 }

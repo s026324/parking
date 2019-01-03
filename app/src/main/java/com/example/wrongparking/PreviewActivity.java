@@ -59,6 +59,8 @@ public class PreviewActivity extends AppCompatActivity {
     private void setImage (final String imageUrl, final String adressLine, String aprasymas, String valstnum,
                            String datetime, String answer, boolean activatedornot){
         final ImageView image = findViewById(R.id.imagepreview);
+        image.setAdjustViewBounds(true);
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         Picasso.get()
                 .load(imageUrl)

@@ -66,11 +66,13 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
 
                     Intent i = new Intent(MyPostsActivity.this, MainActivity.class);
                     startActivity(i);
+                    finish();
 
                     return true;
                 case R.id.pranesti_nav:
                     Intent j = new Intent(MyPostsActivity.this, AddActivity.class);
                     startActivity(j);
+                    finish();
 
                     return true;
                 case R.id.manopranesimai_nav:

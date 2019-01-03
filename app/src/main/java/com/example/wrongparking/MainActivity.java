@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
                     Intent j = new Intent(MainActivity.this, AddActivity.class);
                     startActivity(j);
+                    finish();
 
 
                     return false;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 case R.id.manopranesimai_nav:
                     Intent k = new Intent(MainActivity.this, MyPostsActivity.class);
                     startActivity(k);
+                    finish();
 
                     return false;
             }

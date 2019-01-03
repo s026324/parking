@@ -9,8 +9,10 @@
 
     <ScrollView
         android:id="@+id/content"
+
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_above="@id/LinearLayouts02">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,29 +21,15 @@
             android:layout_marginTop="0dp"
             android:orientation="vertical">
 
-            <!--        <include
-            android:id="@+id/toolbar"
-            layout="@layout/actionbar"/>-->
-            <!--        <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/blue"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Fiksuoti pažeidimai" />-->
-
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:fontFamily="@font/nunito_bold"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Situacijos aprašymas:"
                 android:textColor="@color/black"
-                android:fontFamily="@font/nunito_bold"
                 android:textSize="20dp" />
 
 
@@ -54,28 +42,26 @@
 
                 <EditText
                     android:id="@+id/edit_text_file_name"
-                    android:maxLength="300"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_below="@+id/valstnum"
                     android:layout_alignParentStart="true"
                     android:hint="Įveskite tekstą"
+                    android:maxLength="300"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp" />
 
             </android.support.design.widget.TextInputLayout>
 
 
-
-
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:fontFamily="@font/nunito_bold"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Transporto pr. valst. reg. numeris:"
-                android:fontFamily="@font/nunito_bold"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
@@ -88,12 +74,12 @@
 
                 <EditText
                     android:id="@+id/valstnum"
-                    android:maxLength="15"
                     android:layout_width="match_parent"
                     android:layout_height="68dp"
-                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/imageView2"
+                    android:layout_alignParentStart="true"
                     android:hint="Įveskite numerį"
+                    android:maxLength="15"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp" />
 
@@ -123,7 +109,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
 
-<!--            <Button
+            <!--            <Button
                 android:id="@+id/choose"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -147,11 +133,12 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:adjustViewBounds="false"
-
+                android:layout_marginBottom="15dp"
+                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
         </LinearLayout>
@@ -180,9 +167,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
-
-
 
 </RelativeLayout>

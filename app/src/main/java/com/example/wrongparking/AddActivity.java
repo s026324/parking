@@ -151,6 +151,7 @@ public class AddActivity extends AppCompatActivity {
 
                     Intent i = new Intent(AddActivity.this, MainActivity.class);
                     startActivity(i);
+                    finish();
 
                     return true;
                 case R.id.pranesti_nav:
@@ -160,6 +161,7 @@ public class AddActivity extends AppCompatActivity {
                 case R.id.manopranesimai_nav:
                     Intent k = new Intent(AddActivity.this, MyPostsActivity.class);
                     startActivity(k);
+                    finish();
 
                     return true;
             }
@@ -260,6 +262,7 @@ public class AddActivity extends AppCompatActivity {
                     editor.putLong("ExpiredDate", System.currentTimeMillis() + TimeUnit.HOURS.toMillis(12));
                     editor.apply();
 
+                    btnUpload.setActivated(false); /// kad dialogo metu negalima butu spausti dar karta
                     upload();
                 }
             }
@@ -660,8 +663,8 @@ public class AddActivity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100 * 0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Keliama:" + (int) progress + "%");
+                            progressDialog.setMessage("Keliama");
+                            progressDialog.setCanceledOnTouchOutside(false);
                         }
                     });
         }
