@@ -88,6 +88,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                 String aprasymas = mItemsList.get(position).getName();
                 String valstnum = mItemsList.get(position).getValstnum();
                 String answer = mItemsList.get(position).getAnswer();
+                boolean activatedornot = mItemsList.get(position).isPatvirtintas();
                 /*                   String datetime = mItemsList.get(position).getTime();*/
 
 
@@ -97,6 +98,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                 i.putExtra("valstnum", valstnum);
                 i.putExtra("time", formattedDate);
                 i.putExtra("answer", answer);
+                i.putExtra("activatedornot", activatedornot);
 
                 mContext.startActivity(i);
             }

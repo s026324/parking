@@ -35,17 +35,17 @@
         android:visibility="gone"
         />
 
+
+</LinearLayout>
+
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin"
         style="@style/SpinKitView.Large.Wave"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         app:SpinKit_Color="@color/colorPrimaryDark" />
-
-
-</LinearLayout>
     <android.support.design.widget.BottomNavigationView
 
         android:id="@+id/navigation"

@@ -103,6 +103,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 String aprasymas = mItemsList.get(position).getName();
                 String valstnum = mItemsList.get(position).getValstnum();
                 String answer = mItemsList.get(position).getAnswer();
+
+                boolean activatedornot = mItemsList.get(position).isPatvirtintas();
                 /*                   String datetime = mItemsList.get(position).getTime();*/
 
 
@@ -112,6 +114,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 i.putExtra("valstnum", valstnum);
                 i.putExtra("time", formattedDate);
                 i.putExtra("answer", answer);
+
+                i.putExtra("activatedornot", activatedornot);
 
                 mContext.startActivity(i);
             }

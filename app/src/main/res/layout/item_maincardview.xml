@@ -16,6 +16,10 @@
             android:id="@+id/iv_foto"
             android:layout_width="128dp"
             android:layout_height="120dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/white" />
 
         <TextView
@@ -23,19 +27,27 @@
             android:layout_width="255dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@id/iv_foto"
+            android:ellipsize="end"
+            android:maxLines="1"
 
 
+            android:paddingTop="5dp"
             android:text="EBG998"
             android:textColor="@android:color/black"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/tv_adressas"
+
             android:layout_width="255dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-
             android:layout_below="@+id/tv_valst_nr"
+            android:layout_toRightOf="@id/iv_foto"
+            android:maxLines="1"
+            android:ellipsize="end"
+
+            android:layout_alignParentEnd="true"
             android:paddingRight="15dp"
             android:text="Virsuliskiu 24, Vilnius, 5008"
             android:textColor="@color/blue"
@@ -45,9 +57,12 @@
             android:id="@+id/tv_aprasymas"
             android:layout_width="255dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-
             android:layout_below="@+id/tv_adressas"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@id/iv_foto"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:text="Tam tikras aprasymas kuris bus keliose eilutese ir nurodys info apie pazeidima"
             android:textColor="@color/darkerGray"
@@ -55,22 +70,23 @@
 
         <TextView
             android:id="@+id/tv_data"
-            android:layout_width="255dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tv_aprasymas"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:text="2018 10 26"
-            android:textAlignment="center"
             android:textColor="@color/darkGray"
             android:textSize="14sp" />
 
 
         <com.github.chrisbanes.photoview.PhotoView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/your_photo_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"

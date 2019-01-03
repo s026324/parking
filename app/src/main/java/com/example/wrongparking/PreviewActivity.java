@@ -40,7 +40,8 @@ public class PreviewActivity extends AppCompatActivity {
     private void getIncomingIntent(){
         if(getIntent().hasExtra("image") && getIntent().hasExtra("adress") &&
                 getIntent().hasExtra("aprasymas") && getIntent().hasExtra("valstnum") &&
-                getIntent().hasExtra("time") && getIntent().hasExtra("answer")
+                getIntent().hasExtra("time") && getIntent().hasExtra("answer") &&
+                getIntent().hasExtra("activatedornot")
                 ) {
             String imageUrl = getIntent().getStringExtra("image");
             String adressLine = getIntent().getStringExtra("adress");
@@ -48,14 +49,15 @@ public class PreviewActivity extends AppCompatActivity {
             String valstnum = getIntent().getStringExtra("valstnum");
             String datetime = getIntent().getStringExtra("time");
             String answer = getIntent().getStringExtra("answer");
+            Boolean activatedornot = getIntent().getExtras().getBoolean("activatedornot");
 
 
-            setImage(imageUrl, adressLine, aprasymas, valstnum, datetime, answer);
+            setImage(imageUrl, adressLine, aprasymas, valstnum, datetime, answer, activatedornot);
         }
     }
 
     private void setImage (final String imageUrl, final String adressLine, String aprasymas, String valstnum,
-                           String datetime, String answer){
+                           String datetime, String answer, boolean activatedornot){
         final ImageView image = findViewById(R.id.imagepreview);
 
         Picasso.get()
@@ -106,6 +108,19 @@ public class PreviewActivity extends AppCompatActivity {
 
         if (answer.equals("")){
             answerTextas.setVisibility(View.GONE);
+            answerText.setVisibility(View.GONE);
         }
+
+        final TextView activatedornotText = findViewById(R.id.isactivated);
+
+
+            if (activatedornot) {
+
+                activatedornotText.setText("Patvirtintas");
+                activatedornotText.setTextColor(getResources().getColor(R.color.colorPatvirtintas));
+            } else {
+                activatedornotText.setText("Nepatvirtintas");
+                activatedornotText.setTextColor(getResources().getColor(R.color.colorNepatvirtintas));
+            }
     }
 }
