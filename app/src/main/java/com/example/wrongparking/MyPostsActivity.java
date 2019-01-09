@@ -51,10 +51,12 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
     public MyPostsAdapter adapter;
     private Button button;
     public SharedPreferences sharedPref;
-    public TextView noAdds;
+    public TextView noitems;
+    public TextView noResults;
 
     ProgressDialog dialog;
     final ArrayList<Upload> mUploadArrayList = new ArrayList<>();
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,7 +79,6 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
                     return true;
                 case R.id.manopranesimai_nav:
 
-
                     return true;
             }
             return false;
@@ -91,37 +92,12 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        TextView noAdds = (TextView) findViewById(R.id.noAdds);
 
         View view = navigation.findViewById(R.id.manopranesimai_nav);
         view.performClick();
 
 
 
-/*        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.rc_pazeidimai);
-        recyclerView.setLayoutManager(layoutManager);
-
-        gson = new Gson();
-        itemsList = new ArrayList<>();
-
-        pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI,"");
-        if (pazeidimaiJson.equals("")) {
-            noAdds.setVisibility(View.VISIBLE);
-*//*             Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();*//*
-        } else {
-
-            sharedPref = getPreferences(MODE_PRIVATE);
-            String UploadId = sharedPref.getString("firebasekey", "");
-
-            Type founderListType = new TypeToken<ArrayList<Upload>>(){}.getType();
-
-            itemsList = gson.fromJson(pazeidimaiJson, founderListType);
-            Log.e("pranesimaiList", "json: ->>>>> " + pazeidimaiJson);
-            Collections.reverse(itemsList);
-            adapter = new MainAdapter(this, itemsList);
-            recyclerView.setAdapter(adapter);
-        }*/
 
         dialog = new ProgressDialog(this); // this = YourActivity
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -130,14 +106,10 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
 
-
-
         gson = new Gson();
         itemsList = new ArrayList<>();
 
         prepareAllDataList();
-
-
 
     }
 
@@ -146,17 +118,18 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
         ArrayList<Upload> userItems = new ArrayList<>();
         pazeidimaiJson = Prefs.with(this).read(PREFS_KEY_PAZEIDIMAI,"");
         if (pazeidimaiJson.equals("")) {
+
+/*
             Toast.makeText(this,"Jus neturite pranesimu",Toast.LENGTH_LONG).show();
+*/
+
         } else {
             Type founderListType = new TypeToken<ArrayList<Upload>>(){}.getType();
             userItems = gson.fromJson(pazeidimaiJson, founderListType);
             Log.e("pranesimaiList", "json: ->>>>> " + pazeidimaiJson);
         }
 
-
         prepareAllUserData(userItems, allDataList);
-
-
 
 
     }
@@ -189,8 +162,6 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
 
     private void prepareAllDataList(){
 
-
-
         dialog.show();
 
         DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -206,6 +177,13 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
                 }
 
                 prepareData(mUploadArrayList);
+
+                final TextView noitems = (TextView) findViewById(R.id.noAdds);
+
+                if (pazeidimaiJson.equals("")){
+                    noitems.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
 
             }
 
@@ -227,6 +205,9 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
 
             text = text.toLowerCase();
 
+            prepareData(mUploadArrayList);
+
+
             if(item.getName().toLowerCase().contains(text) ||
                     item.getValstnum().toLowerCase().contains(text) ||
                     item.getAddress().toLowerCase().contains(text) ){
@@ -234,6 +215,17 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
             }
         }
         adapter.filterList(filteredList);
+
+        final TextView noResults = (TextView) findViewById(R.id.noResults);
+
+        if(filteredList.isEmpty()){
+            noResults.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else {
+            noResults.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
 

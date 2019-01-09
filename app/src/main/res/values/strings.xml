@@ -70,4 +70,8 @@
 
     <string name="alert_passwordreseted_text">Turite gaut laišką į Jumis nurodyta el. pašto dėžutę, taip galėsite atnaujinti savo prisijungimo slaptažodį</string>
 
+
+    <string name="alert_added_text">Jūsų pranešimas išsiųstas redaktoriui.\n Savo visus pranešimus apie parkavimo pažeidimus galite matyti <b>"Mano pranešimai"</b> lange.</string>
+
+    <string name="nouser">Klaida: Tokio naudotojo nėra arba naudotojas buvo ištrintas</string>
 </resources>

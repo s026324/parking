@@ -250,8 +250,8 @@ public class AddActivity extends AppCompatActivity {
 /*                    btnUpload.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.white));*/
                     Toast.makeText(AddActivity.this, "Užpildykite pilnai formą",Toast.LENGTH_LONG).show();
                     return;
-                }else if(clicks >= 10) {
-                    Toast.makeText(AddActivity.this, "Į dieną galime pranešti apie dešimt pažeidimus!", Toast.LENGTH_SHORT).show();
+                }else if(clicks >= 15) {
+                    Toast.makeText(AddActivity.this, "Į dieną galime pranešti apie penkiolika pažeidimų!", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -591,7 +591,7 @@ public class AddActivity extends AppCompatActivity {
 
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Keliama.");
+           /* progressDialog.setTitle("Keliama");*/
             progressDialog.show();
 
             String randomPath = UUID.randomUUID().toString();
@@ -603,10 +603,38 @@ public class AddActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(AddActivity.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
 
-                            Intent i = new Intent(AddActivity.this, MainActivity.class);
-                            startActivity(i);
+/*
+                            Toast.makeText(AddActivity.this, "Jūsų pranešimas bus rodomas, kaip tik redaktorius jį patvirtins.", Toast.LENGTH_LONG).show();
+*/
+
+                            /*Intent i = new Intent(AddActivity.this, MainActivity.class);
+                            startActivity(i);*/
+
+                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddActivity.this);
+                            View mView = getLayoutInflater().inflate(R.layout.alert_added, null);
+                            Button ok = (Button) mView.findViewById(R.id.ok);
+
+                            mBuilder.setView(mView);
+                            final AlertDialog dialog = mBuilder.create();
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.show();
+                            dialog.setCanceledOnTouchOutside(false);
+
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    /*dialog.dismiss();*/
+                                    finish();
+                                    Intent i = new Intent(AddActivity.this, MyPostsActivity.class);
+                                    startActivity(i);
+
+                                }
+                            });
+
+
+
+
 
                             taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override

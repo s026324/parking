@@ -218,6 +218,9 @@ public class Editor extends AppCompatActivity implements android.support.v7.widg
         final MenuItem menuItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         searchView.setOnQueryTextListener(this);
         setTitle("Redaktoriaus pultas");
         return true;

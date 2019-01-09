@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public MainAdapter adapter;
     ProgressBar progress;
     public TextView noitems;
+    public TextView noresults;
 
 
 
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         final TextView noitems = (TextView) findViewById(R.id.noitems);
-
 
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -183,6 +183,16 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             }
         }
         adapter.filterList(filteredList);
+        final TextView noresults = (TextView) findViewById(R.id.noResults);
+
+        if(filteredList.isEmpty()){
+            noresults.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else
+        {
+            noresults.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

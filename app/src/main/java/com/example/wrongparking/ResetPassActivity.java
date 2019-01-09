@@ -68,7 +68,7 @@ public class ResetPassActivity extends AppCompatActivity {
 */
                             }else{
                                 String message  = task.getException().getMessage();
-                                Toast.makeText(ResetPassActivity.this, "Klaida: " + message, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ResetPassActivity.this, getString(R.string.nouser), Toast.LENGTH_LONG).show();
                             }
                         }
                     });

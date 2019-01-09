@@ -129,7 +129,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public void filterList(ArrayList<Upload> filteredList) {
 
-        mItemsList = filteredList   ;
+        mItemsList = filteredList;
         notifyDataSetChanged();
 
     }
