@@ -56,6 +56,7 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
 
     ProgressDialog dialog;
     final ArrayList<Upload> mUploadArrayList = new ArrayList<>();
+    ArrayList<Upload> mFinalDataList;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -135,7 +136,7 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
     }
 
     private void prepareAllUserData(ArrayList<Upload> userItems,ArrayList<Upload> allItems){
-        ArrayList<Upload> mFinalDataList = new ArrayList<>();
+        mFinalDataList = new ArrayList<>();
 
         for (int i = 0; i < allItems.size(); i++) {
             for (Upload upl: userItems) {
@@ -199,13 +200,12 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
     private void filter(String text){
 
         ArrayList<Upload> filteredList = new ArrayList<>();
-        Collections.reverse(mUploadArrayList);
 
-        for (Upload item : mUploadArrayList) {
+        for (Upload item : mFinalDataList) {
 
             text = text.toLowerCase();
 
-            prepareData(mUploadArrayList);
+            prepareData(mFinalDataList);
 
 
             if(item.getName().toLowerCase().contains(text) ||
