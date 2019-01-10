@@ -237,7 +237,7 @@ public class MyPostsActivity extends AppCompatActivity implements android.suppor
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
 
         searchView.setOnQueryTextListener(this);
-
+        searchView.setQueryHint("Paieška...");
         setTitle("Mano pranešimai");
         return true;
     }

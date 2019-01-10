@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
 public class MainActivity extends AppCompatActivity implements android.support.v7.widget.SearchView.OnQueryTextListener {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -203,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
 
         searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Paieška...");
         setTitle("Fiksuoti pažeidimai");
         return true;
     }

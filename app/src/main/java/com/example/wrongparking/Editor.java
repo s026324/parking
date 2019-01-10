@@ -222,6 +222,7 @@ public class Editor extends AppCompatActivity implements android.support.v7.widg
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Paieška...");
         setTitle("Redaktoriaus pultas");
         return true;
     }
